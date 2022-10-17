@@ -31,7 +31,7 @@ const VerifiedStudentData = () => {
             {data?.map(({ _id, name, email, Result, status }, i) => {
               return (
                 <tr key={_id}>
-                  <th scope="row">{i}</th>
+                  <th scope="row">{i+1}</th>
                   <td>{name}</td>
                   <td>{email}</td>
                   <td

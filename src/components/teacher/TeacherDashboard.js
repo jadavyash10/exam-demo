@@ -18,7 +18,7 @@ const TeacherDashboard = () => {
   const data = useSelector((state) => state.showStudentData.allStudent);
   return (
     <div className="container mt-3" style={{ width: "800px" }}>
-      <h1>Studednt Data</h1>
+      <h1>Student Data</h1>
       <div className="">
         <table className="table table-striped table-hover ">
           <thead>
@@ -34,7 +34,7 @@ const TeacherDashboard = () => {
             {data?.map(({ _id, name, email, Result, status }, i) => {
               return (
                 <tr key={_id}>
-                  <th scope="row">{i}</th>
+                  <th scope="row">{i+1}</th>
                   <td>{name}</td>
                   <td>{email}</td>
                   <td

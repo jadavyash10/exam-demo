@@ -39,14 +39,6 @@ const Navbar = () => {
         <>
           <Link to="/teacherDashboard">Dashboard</Link>
           <Link to="/verifiedStudentData">VerifiedStudentData</Link>
-          {/* <div className="right">
-            <Link to="/logout" id="right" >
-              Logout
-            </Link>
-            <Link to="/resetPassword" id="right">
-              Resetpassword
-            </Link>
-          </div> */}
         </>
       ) : null}
     </div>
