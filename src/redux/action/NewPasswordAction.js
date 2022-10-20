@@ -7,6 +7,7 @@ import {
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 import { toastError, toastSuccess } from "./toastAction";
+import { token } from "../../utils/Constant";
 
 export const newpasswordSuccess = (message) => {
   return {
@@ -40,7 +41,7 @@ export const newpasswordClear = () => {
   };
 };
 
-export const newpasswordSubmit = (navigate, token) => {
+export const newpasswordSubmit = (navigate) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.newPassword.users;

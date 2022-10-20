@@ -42,7 +42,7 @@ export const signUpClear = () => {
   };
 };
 
-export const signUpSubmit = () => {
+export const signUpSubmit = (navigate) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.signUp.users;
@@ -52,14 +52,16 @@ export const signUpSubmit = () => {
         console.log("first", res.data);
         if (res.data.statusCode === 200) {
           dispatch(signUpSuccess(res.data.message));
-          dispatch(toastSuccess(res.data.message));
+          navigate("/login");
           dispatch(signUpClear());
+          toastSuccess(res.data.message);
+        } else {
+          dispatch(signUpFail(res.data.message));
+          dispatch(toastError(res.data.message));
         }
-        dispatch(signUpFail(res.data.message));
-        dispatch(toastError(res.data.message));
       })
       .catch((error) => {
-        dispatch(signUpClear());
+        // dispatch(signUpClear());
       });
   };
 };

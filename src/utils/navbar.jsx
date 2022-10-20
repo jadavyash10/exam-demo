@@ -1,7 +1,6 @@
 const navbarArr = [
-    {
-        id:"home",
-        label:"Home",
-        
-    }
-]
+  {
+    id: "home",
+    label: "Home",
+  },
+];

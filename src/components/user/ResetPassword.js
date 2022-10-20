@@ -10,19 +10,18 @@ import Input from "../../reusable/Input";
 import Validation from "../Validation";
 import Button from "../../reusable/Button";
 import { resetPassField } from "../../utils/resetPassField";
+import Form from "../../reusable/Form";
 
 const ResetPassword = () => {
-  const newPassword = useSelector((state) => state.resetPassword);
+  const { users, message, errors } = useSelector(
+    (state) => state.resetPassword
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const userData = newPassword.users;
-  const message = newPassword.message;
-  const error = newPassword.errors;
-  const token = localStorage.getItem("userToken");
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value, userData);
+    const newError = Validation(name, value, users);
     dispatch(resetpasswordError({ [name]: newError }));
     dispatch(resetpasswordOnChange({ [name]: value }));
   };
@@ -30,8 +29,8 @@ const ResetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const error = {};
-    Object.entries(userData).forEach(([name, value], i) => {
-      const newerror = Validation(name, value, userData);
+    Object.entries(users).forEach(([name, value], i) => {
+      const newerror = Validation(name, value, users);
       if (newerror) {
         error[name] = newerror;
       }
@@ -40,7 +39,7 @@ const ResetPassword = () => {
       dispatch(resetpasswordError(error));
       return;
     }
-    dispatch(resetpasswordSubmit(navigate, token));
+    dispatch(resetpasswordSubmit(navigate));
   };
 
   return (
@@ -48,22 +47,12 @@ const ResetPassword = () => {
       <h1>Reset Password</h1>
 
       <div className="row">
-        {resetPassField.map(({ name, label, placeholder, type, id }, i) => {
-          return (
-            <div key={id} className="row">
-              <Input
-                id={id}
-                label={label}
-                name={name}
-                value={userData[name]}
-                type={type}
-                placeholder={placeholder}
-                onChange={handleChange}
-                error={error || ""}
-              />
-            </div>
-          );
-        })}
+        <Form
+          field={resetPassField}
+          Data={users}
+          error={errors}
+          handleChange={handleChange}
+        />
       </div>
       <div>
         <Button clickHandler={handleSubmit}>Submit</Button>

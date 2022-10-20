@@ -10,22 +10,17 @@ import Validation from "../Validation";
 import { useDispatch, useSelector } from "react-redux";
 import { newPasswordField } from "../../utils/newPasswordFields";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Form from "../../reusable/Form";
 
 const NewPassword = () => {
-  const newPassword = useSelector((state) => state.newPassword);
+  const { users, message, errors } = useSelector((state) => state.newPassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchparams] = useSearchParams();
 
-  const token = searchparams.get("token");
-  console.log(token)
-  const userData = newPassword.users;
-  const message = newPassword.message;
-  const error = newPassword.errors;
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value, userData);
+    const newError = Validation(name, value, users);
     dispatch(newpasswordError({ [name]: newError }));
     dispatch(newpasswordOnChange({ [name]: value }));
   };
@@ -33,8 +28,8 @@ const NewPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const error = {};
-    Object.entries(userData).forEach(([name, value], i) => {
-      const newerror = Validation(name, value, userData);
+    Object.entries(users).forEach(([name, value], i) => {
+      const newerror = Validation(name, value, users);
       if (newerror) {
         error[name] = newerror;
       }
@@ -43,32 +38,25 @@ const NewPassword = () => {
       dispatch(newpasswordError(error));
       return;
     }
-    dispatch(newpasswordSubmit(navigate, token));
+    dispatch(newpasswordSubmit(navigate));
   };
   return (
     <div className="container">
       <h1>New Password</h1>
 
       <div className="row">
-        {newPasswordField.map(({ name, label, placeholder, type, id }, i) => {
-          return (
-            <div key={id} className="row">
-              <Input
-                id={id}
-                label={label}
-                name={name}
-                value={userData[name]}
-                type={type}
-                placeholder={placeholder}
-                onChange={handleChange}
-                error={error || ""}
-              />
-            </div>
-          );
-        })}
-      </div>
-      <div>
-        <Button clickHandler={handleSubmit}>Submit</Button>
+        <form>
+          <Form
+            field={newPasswordField}
+            Data={users}
+            error={errors}
+            handleChange={handleChange}
+          />
+
+          <div>
+            <Button clickHandler={handleSubmit}>Submit</Button>
+          </div>
+        </form>
       </div>
     </div>
   );

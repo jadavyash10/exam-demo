@@ -6,7 +6,8 @@ import showStudentData from "../../redux/action/ShowStudentDataAction";
 import { axiosApi } from "../axios";
 import Button from "../../reusable/Button";
 import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import Table from "../../reusable/Table";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
@@ -15,41 +16,16 @@ const TeacherDashboard = () => {
     dispatch(showStudentDatass());
   }, []);
 
-  const data = useSelector((state) => state.showStudentData.allStudent);
+  const StudentData = useSelector((state) => state.showStudentData.allStudent);
   return (
     <div className="container mt-3" style={{ width: "800px" }}>
       <h1>Student Data</h1>
       <div className="">
-        <table className="table table-striped table-hover ">
-          <thead>
-            <tr>
-              <th scope="col">No.</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Status</th>
-              <th scope="col">Show</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map(({ _id, name, email, Result, status }, i) => {
-              return (
-                <tr key={_id}>
-                  <th scope="row">{i+1}</th>
-                  <td>{name}</td>
-                  <td>{email}</td>
-                  <td
-                    style={{ color: status === "Active" ? "green" : "orange" }}
-                  >
-                    {status}
-                  </td>
-                  <td>
-                  <Link to={`/viewStudentDetail/${_id}`}>Show</Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Table
+          th={["No.", "Name", "Email", "Status", "Show"]}
+          tableData={StudentData}
+          show={true}
+        />
       </div>
     </div>
   );

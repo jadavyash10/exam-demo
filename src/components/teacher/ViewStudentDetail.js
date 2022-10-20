@@ -2,49 +2,47 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
+import Table from "../../reusable/Table";
 
 const ViewStudentDetail = () => {
   const dispatch = useDispatch();
-  const {id} = useParams();
-  console.log(id)
+  const { id } = useParams();
+  console.log(id);
 
   useEffect(() => {
     dispatch(viewStudentDetail(id));
   }, []);
 
-  const data = useSelector((state) => state.viewStudentDetail.allStudent);
+  const ViewStudentData = useSelector(
+    (state) => state.viewStudentDetail.allStudent
+  );
   return (
     <div className="container mt-3" style={{ width: "800px" }}>
-      <h1>Studednt Detail</h1>
-      <div className="">
-        <table className="table table-striped table-hover ">
-          <thead>
-            <tr>
-              <th scope="col">No.</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Status</th>
-              <th scope="col">Show</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map(({ _id, name, email, Result, status }, i) => {
-              return (
-                <tr key={_id}>
-                  <th scope="row">{i+1}</th>
-                  <td>{name}</td>
-                  <td>{email}</td>
-                  <td
-                    style={{ color: status === "Active" ? "green" : "orange" }}
-                  >
-                    {status}
-                  </td>
-                  {/* <td><Button clickHandler={viewStudentDetail(_id)}>Show</Button></td> */}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <h1>Student Detail</h1>
+      <div className="container">
+        <div>
+          {ViewStudentData.map((v, i) => {
+            return (
+              <div key={id}>
+                <h4>Name :{v.name}</h4>
+                <p>Email : {v.email}</p>
+                {v.Result.map((v, i) => {
+                  return (
+                    <div key={v.id}>
+                      <p>Rank :{v.rank}</p>
+                      <p>subjectName :{v.subjectName}</p>
+                      <p>score :{v.score}</p>
+                      <p>resultStatus :{v.resultStatus}</p>
+                      <p>__v :{v.__v}</p>
+                      <hr />
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+        {/* <Table th={["No.", "Name", "Email"]} tableData={ViewStudentData} /> */}
       </div>
     </div>
   );
