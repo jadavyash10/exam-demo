@@ -8,18 +8,14 @@ import {
   signUpSuccess,
 } from "../../redux/action/SignUpAction";
 import Button from "../../reusable/Button";
-import Input from "../../reusable/Input";
+import Form from "../../reusable/Form";
 import { sigupField } from "../../utils/signupFields";
 import Validation from "../Validation";
 
 const Signup = () => {
-  const signUpValue = useSelector((state) => state.signUp);
-  const userData = signUpValue.users;
-  const message = signUpValue.message;
-  const error = signUpValue.errors;
+  const { users, message, errors } = useSelector((state) => state.signUp);
 
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,7 +28,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const error = {};
-    Object.entries(userData).forEach(([name, value], i) => {
+    Object.entries(users).forEach(([name, value], i) => {
       const newerror = Validation(name, value);
       if (newerror) {
         error[name] = newerror;
@@ -51,41 +47,15 @@ const Signup = () => {
       <div>
         <form className="form-horizontal">
           <div className="container">
-            {sigupField.map(({ label, name, id, type, placeholder }) => {
-              if (type === "radio") {
-                return (
-                  <React.Fragment key={id}>
-                    <Input
-                      id={id}
-                      name={name}
-                      value={label}
-                      checked={label === userData[name] || ""}
-                      type={type}
-                      onChange={handleChange}
-                      label={label}
-                      error={error || ""}
-                    />
-                  </React.Fragment>
-                );
-              }
-              return (
-                <div key={id} className="row">
-                  <Input
-                    id={id}
-                    label={label}
-                    name={name}
-                    value={userData[name]}
-                    type={type}
-                    placeholder={placeholder}
-                    onChange={handleChange}
-                    error={error || ""}
-                  />
-                </div>
-              );
-            })}
+            <Form
+              field={sigupField}
+              Data={users}
+              error={errors}
+              handleChange={handleChange}
+            />
+
             <div className="row">
-              <Button clickHandler={handleSubmit}>Sign Up</Button>
-              <Button clickHandler={() => navigate("/login")}>Login</Button>
+              <Button clickHandler={handleSubmit}>SignUp</Button>
             </div>
           </div>
         </form>

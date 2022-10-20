@@ -9,6 +9,9 @@ import Private from "../components/user/Private";
 import TeacherDashboard from "../components/teacher/TeacherDashboard";
 import VerifiedStudentData from "../components/teacher/VerifiedStudentData";
 import ViewStudentDetail from "../components/teacher/ViewStudentDetail";
+import CreateExam from "../components/teacher/CreateExam";
+import StudentDashboard from "../components/student/StudentDashboard";
+import ViewExam from '../components/teacher/ViewExam';
 
 export const RoutesArr = [
   {
@@ -65,9 +68,27 @@ export const RoutesArr = [
     id: "viewStudentDetail",
     privateElement: true,
   },
+  {
+    path: "/createExam",
+    element: <CreateExam />,
+    id: "createExam",
+    privateElement: true,
+  },
+  {
+    path: "/viewExam",
+    element: <ViewExam />,
+    id: "viewExam",
+    privateElement: true,
+  },
+  {
+    path: "/studentDashboard",
+    element: <StudentDashboard />,
+    id: "studentDashboard",
+    privateElement: true,
+  },
 ];
 
-const Routing = (arr) => {
+const routing = (arr) => {
   return (
     <>
       {arr?.map(({ path, element, id, childRoute, privateElement }, i) => {
@@ -75,7 +96,7 @@ const Routing = (arr) => {
           return (
             <>
               <Route key={id} path={path} element={element} />;
-              {Routing(childRoute)}
+              {routing(childRoute)}
             </>
           );
         } else {
@@ -92,4 +113,4 @@ const Routing = (arr) => {
   );
 };
 
-export default Routing;
+export default routing;

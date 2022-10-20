@@ -46,7 +46,6 @@ export const loginSubmit = (navigate) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.login.users;
-    console.log(userData);
     await axiosApi
       .post("users/Login", userData)
       .then((res) => {

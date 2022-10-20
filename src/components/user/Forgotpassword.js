@@ -8,15 +8,15 @@ import Input from "../../reusable/Input";
 import Validation from "../Validation";
 import Button from "../../reusable/Button";
 import { useNavigate } from "react-router-dom";
+import Form from "../../reusable/Form";
+import forgotPassField from "../../utils/forgotPassworField";
 
 const Forgotpassword = () => {
-  const forgotpass = useSelector((state) => state.forgotPassword);
+  const { users, message, errors } = useSelector(
+    (state) => state.forgotPassword
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = forgotpass.users;
-  const message = forgotpass.message;
-  const error = forgotpass.errors;
-  console.log(forgotpass);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +28,7 @@ const Forgotpassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const error = {};
-    Object.entries(userData).forEach(([name, value], i) => {
+    Object.entries(users).forEach(([name, value], i) => {
       const newerror = Validation(name, value);
       if (newerror) {
         error[name] = newerror;
@@ -45,15 +45,11 @@ const Forgotpassword = () => {
     <div className="container">
       <h1>Forgot Password</h1>
       <div className="row">
-        <Input
-          name="email"
-          label="Email"
-          value={userData["email"]}
-          id="email"
-          type="email"
-          placeholder="enter email"
-          onChange={handleChange}
-          error={error || ""}
+        <Form
+          field={forgotPassField}
+          Data={users}
+          error={errors}
+          handleChange={handleChange}
         />
       </div>
       <div className="row">

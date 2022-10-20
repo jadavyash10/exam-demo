@@ -1,4 +1,7 @@
-import { SHOW_VERIFIED_STUDENTDATA, SHOW_VERIFIED_STUDENTDATA_ERROR } from "../constant/Index";
+import {
+  SHOW_VERIFIED_STUDENTDATA,
+  SHOW_VERIFIED_STUDENTDATA_ERROR,
+} from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 
 export const showVerifiedStudentDataSuceess = (state) => {
@@ -26,7 +29,6 @@ const showVerifiedStudentData = () => {
         },
       })
       .then((res) => {
-        console.log(res)
         if (res.data.statusCode === 200) {
           dispatch(showVerifiedStudentDataSuceess(res.data.data));
         } else {

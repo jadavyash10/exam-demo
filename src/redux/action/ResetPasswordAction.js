@@ -7,6 +7,8 @@ import {
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 import { toastError, toastSuccess } from "./toastAction";
+import { token } from '../../utils/Constant';
+
 
 export const resetpasswordSuccess = (message) => {
   return {
@@ -40,7 +42,8 @@ export const resetpasswordClear = () => {
   };
 };
 
-export const resetpasswordSubmit = (navigate, token) => {
+export const resetpasswordSubmit = (navigate) => {
+  console.log(token);
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.resetPassword.users;

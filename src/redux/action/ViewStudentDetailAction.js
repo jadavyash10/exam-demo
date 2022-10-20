@@ -3,6 +3,7 @@ import {
   VIEW_STUDENT_DETAIL_ERROR,
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
+import { token } from "../../utils/Constant";
 
 export const viewStudentDetailSuceess = (state) => {
   return {
@@ -19,7 +20,6 @@ export const viewStudentDetailError = (state) => {
 };
 
 const viewStudentDetail = (_id) => {
-  const token = localStorage.getItem("userToken");
 
   return async (dispatch) => {
     await axiosApi

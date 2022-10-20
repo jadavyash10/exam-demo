@@ -3,50 +3,48 @@ import { pass, re } from "../utils/regex";
 const Validation = (name, value, userData) => {
   switch (name) {
     case "name":
-      if (!value) {
-        return "Please enter a username";
-      }
-      break;
+      return !value ? "Please enter a username" : "";
+
     case "email":
-      if (!value) {
-        return "please enter a email";
-      } else if (!re.test(value)) {
-        return "please enter valid email";
-      }
-      break;
+      return !value
+        ? "please enter a email"
+        : !re.test(value)
+        ? "please enter valid email"
+        : "";
+
     case "password":
-      if (!value) {
-        return "please enter a password";
-      } else if (!pass.test(value)) {
-        return "password should contain at least one number and one special character";
-      }
-      break;
+      return !value
+        ? "please enter a password"
+        : !pass.test(value)
+        ? "password should contain at least one number and one special character"
+        : "";
+
     case "oldPassword":
-      if (!value) {
-        return "please enter a password";
-      } else if (!pass.test(value)) {
-        return "password should contain at least one number and one special character";
-      }
-      break;
+      return !value
+        ? "please enter a password"
+        : !pass.test(value)
+        ? "password should contain at least one number and one special character"
+        : "";
+
     case "Password":
-      if (!value) {
-        return "please enter a password";
-      } else if (!pass.test(value)) {
-        return "password should contain at least one number and one special character";
-      }
-      break;
+      return !value
+        ? "please enter a password"
+        : !pass.test(value)
+        ? "password should contain at least one number and one special character"
+        : "";
+
     case "ConfirmPassword":
-      if (!value) {
-        return "please enter a password";
-      }  else if (userData.Password && value !== userData.Password) {
-        return "Password and Confirm Password does not match.";
-      }
-      break;
+      return !value
+        ? "please enter a password"
+        : userData.Password && value !== userData.Password
+        ? "Password and Confirm Password does not match."
+        : "";
+
     case "role":
-      if (!value) {
-        return "Please select a role";
-      }
-      break;
+      return !value ? "Please select a role" : "";
+
+    case "subjectName":
+      return !value ? "Please select a subjectName" : "";
 
     default:
       break;
