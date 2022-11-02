@@ -46,6 +46,24 @@ const Validation = (name, value, userData) => {
     case "subjectName":
       return !value ? "Please select a subjectName" : "";
 
+    case "question":
+      return !value ? "Please Enter a question" : "";
+
+    case "answer":
+      return !value ? "Please select a answer" : "";
+
+    case "ans1":
+      return !value ? "Please Enter a ans1" : "";
+
+    case "ans2":
+      return !value ? "Please Enter a ans2" : "";
+
+    case "ans3":
+      return !value ? "Please Enter a ans3" : "";
+
+    case "ans4":
+      return !value ? "Please Enter a ans4" : "";
+
     default:
       break;
   }

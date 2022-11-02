@@ -23,6 +23,7 @@ const CreateExamField = [
   {
     type: "radio",
     name: "answer",
+    id: "answer",
     value: [
       {
         type: "text",
@@ -46,6 +47,16 @@ const CreateExamField = [
       },
     ],
   },
+  // {
+  //   type: "text",
+  //   name: "notes",
+  //   id: "notes",
+  // },
+  // {
+  //   type: "text",
+  //   name: "notes2",
+  //   id: "notes2",
+  // }
 ];
 
 export default CreateExamField;

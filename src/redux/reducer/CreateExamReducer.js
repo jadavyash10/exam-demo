@@ -13,13 +13,7 @@ import {
 const initialState = {
   data: {
     subjectName: "",
-    questions: [
-      {
-        question: "",
-        answer: "",
-        options: ["", "", "", ""],
-      },
-    ],
+    questions: [{ question: "", answer: "", options: ["", "", "", ""] }],
     notes: [],
   },
   error: {},
@@ -40,14 +34,7 @@ const createExamReducer = (state = initialState, action) => {
         ...state,
         data: { ...state.data, ...action.payload },
       };
-    // case QUESTIONS:
-    //   return {
-    //     ...state,
-    //     data: {
-    //       ...state.data,
-    //       questions: [...state.data.questions, action.payload],
-    //     },
-    //   };
+
     case CREATE_EXAM_ONCHANGE:
       return {
         ...state,
@@ -77,7 +64,7 @@ const createExamReducer = (state = initialState, action) => {
     case CREATE_EXAM_SUBJECT_NAME:
       return {
         ...state,
-        data:{ ...state.data, subjectName : action.payload}
+        data: { ...state.data, subjectName: action.payload },
       };
 
     case CREATE_EXAM_CLEAR:
@@ -89,3 +76,33 @@ const createExamReducer = (state = initialState, action) => {
 };
 
 export default createExamReducer;
+
+// const initialState = {
+//   data: {
+//     subjectName: "",
+//     questions: [],
+//     notes: [],
+//   },
+//   error: {},
+//   message: "",
+//   index: 0,
+// };
+// const createExamReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case CREATE_EXAM_SUCCESS:
+//       return {
+//         ...state,
+//         message: action.payload,
+//       };
+//     case CREATE_EXAM_FAIL:
+//       return {
+//         ...state,
+//         message: action.payload,
+//       };
+//     case CREATE_EXAM_ERROR:
+//       return {
+//         ...state,
+//         error: { ...action.payload },
+//       };
+//   }
+// };
