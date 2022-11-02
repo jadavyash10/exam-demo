@@ -27,6 +27,7 @@ import { VIEW_EXAM_ERROR, VIEW_EXAM_SUCCESS } from "../constant/Index";
           },
         })
         .then((res) => {
+          console.log(res.data.data);
           if (res.data.statusCode === 200) {
             dispatch(viewExamSuccess(res.data.data));
           } else {

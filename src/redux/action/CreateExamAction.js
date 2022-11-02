@@ -7,7 +7,6 @@ import {
   CREATE_EXAM_FAIL,
   CREATE_EXAM_ONCHANGE,
   CREATE_EXAM_SUCCESS,
-  SUBJECT_NAME,
   INDEX_UPDATE,
   CREATE_EXAM_SUBJECT_NAME,
 } from "../constant/Index";
@@ -51,32 +50,33 @@ export const indexUpdate = (state, obj) => {
   };
 };
 
-
-export const first = (state) => { 
+export const selectSubjectName = (state) => {
   return {
-    type:CREATE_EXAM_SUBJECT_NAME,
-    payload:state
-  }
- }
+    type: CREATE_EXAM_SUBJECT_NAME,
+    payload: state,
+  };
+};
 
-const createExamSubmit = (navigate) => {
+export const createExamSubmit = (initialState, navigate) => {
+  console.log(token);
   return (dispatch, getState) => {
     axiosApi
-      .push("dashboard/Teachers/Exam", {
-        Headers: {
-          " access-token": token,
+      .post("/dashboard/Teachers/Exam", initialState,{
+        headers: {
+          "access-token": token,
         },
       })
       .then((res) => {
-        if (res.data.statusCode === 200) {
-          toastSuccess(res.data.message);
-          dispatch(createExamSuccess(res.data.message));
-        } else {
-          toastError(res.data.message);
-        }
+        console.log(res);
+        // if (res.data.statusCode === 200) {
+        //   toastSuccess(res.data.message);
+        //   dispatch(createExamSuccess(res.data.message));
+        // } else {
+        //   toastError(res.data.message);
+        // }
       })
       .catch((error) => {
-        toastError(error.message);
+        // toastError(error.message);
       });
   };
 };
