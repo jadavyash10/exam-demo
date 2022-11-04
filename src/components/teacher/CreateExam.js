@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CreateExamField, { subjectNameField } from "../../utils/CreateExamField";
+import CreateExamField from "../../utils/CreateExamField";
 import Button from "../../reusable/Button";
 import DropDown from "../../reusable/DropDown";
 import Validation from "../Validation";
 import Input from "../../reusable/Input";
-import { reset } from "../../utils/Function";
+import { errorValidate, reset, xyz } from "../../utils/Function";
+import { createExamSubmit } from "../../redux/action/CreateExamAction";
+import { useNavigate, useParams } from "react-router-dom";
+import viewExamDetail from "../../redux/action/ViewExamDetailAction";
 
 const CreateExam = () => {
   const initialState = {
@@ -20,99 +23,129 @@ const CreateExam = () => {
     ans2: "",
     ans3: "",
     ans4: "",
+    note: "",
   };
-  const [fields, setFields] = useState(state);
   const [examForm, setExamForm] = useState(initialState);
+  const [fields, setFields] = useState(state);
   const [index, setIndex] = useState(0);
   const [error, setError] = useState({});
-  const [cloneData, setCloneData] = useState({});
+  const [preShow, setPreShow] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const viewExamData = useSelector(({ viewExamDetail }) => viewExamDetail.data);
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(viewExamDetail(id));
+    }
+  }, []);
+
+  useEffect(() => {
+    setExamForm(initialState);
+  }, []);
+
+
+  const { subjectName, notes, questions } = examForm;
+  const obj = {
+    question: fields.question,
+    answer: fields?.answer,
+    options: [fields.ans1, fields.ans2, fields.ans3, fields.ans4],
+  };
 
   const handleSubjectNameChange = (e) => {
     setExamForm({ ...examForm, [e.target.name]: e.target.value });
-    const newError = Validation(e.target.name, e.target.value);
-    setError({ ...error, [e.target.name]: newError });
+
+    setError({
+      ...error,
+      [e.target.name]: Validation(e.target.name, e.target.value),
+    });
   };
 
   const handleChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
-    const newError = Validation(e.target.name, e.target.value);
-    setError({ ...error, [e.target.name]: newError });
+    setError({
+      ...error,
+      [e.target.name]: Validation(e.target.name, e.target.value),
+    });
   };
 
-  const handleAddQuestions = () => {
-    const { subjectName, notes, questions } = examForm;
+  const handleAddItems = () => {
     let cloneQuestions = [...questions];
-    const obj = {
-      question: fields.question,
-      answer: fields?.answer,
-      options: [fields.ans1, fields.ans2, fields.ans3, fields.ans4],
-    };
+    const cloneNotes = [...notes];
     cloneQuestions.push(obj);
+    if (!fields.note == "" && notes.length < 2) {
+      cloneNotes.push(fields.note);
+    }
     setExamForm({
       ...examForm,
       questions: cloneQuestions,
+      notes: cloneNotes,
     });
     setFields(reset(fields));
   };
 
   const handlePreviousValue = (id) => {
-    const res = examForm.questions[id];
+    const res = questions[id];
     const obj = {
-      question: res.question,
+      question: res?.question,
       answer: res?.answer,
       ans1: res?.options[0],
       ans2: res?.options[1],
       ans3: res?.options[2],
       ans4: res?.options[3],
+      note: notes[id],
     };
     setFields({ ...fields, ...obj });
-    examForm.questions[id] = {
-      question: res.question,
-      answer: res?.answer,
-      options: [
-        res?.options[0],
-        res?.options[1],
-        res?.options[2],
-        res?.options[3],
-      ],
-    };
   };
 
   const handlePrevious = () => {
     setIndex(index - 1);
+    setPreShow(true);
     handlePreviousValue(index - 1);
   };
 
   const handleNext = () => {
-    let error = {};
-    Object.entries(fields).forEach(([key, value]) => {
-      const newError = Validation(key, value);
-      newError && (error[key] = newError);
-      if (newError) error[key] = newError;
-    });
+    if (Object.entries(errorValidate(fields)).length) {
+      setError(errorValidate(fields));
+      return;
+    }
+    handleAddItems();
+    setIndex(index + 1);
+  };
+
+  const handleUpdate = () => {
+    if (Object.entries(errorValidate(fields)).length) {
+      setError(errorValidate(fields));
+      return;
+    }
+    questions.splice(index, 1, obj);
+    notes.splice(index, 1, fields.note);
+    setExamForm({ ...examForm, questions: [...questions], notes: [...notes] });
+    setIndex(index + 1);
+    setFields(reset(fields));
+    questions.length > index + 1
+      ? handlePreviousValue(index + 1)
+      : setPreShow(false);
+  };
+
+  const handleSubmit = () => {
+    const error = xyz(examForm);
     if (Object.entries(error).length) {
       setError(error);
       return;
     }
-    handleAddQuestions();
-    setIndex(index + 1);
+    console.log("error", error);
+    dispatch(createExamSubmit(examForm, navigate));
   };
-
-  console.log("first", examForm);
-  // console.log("reset", fields);
-  // console.log("value", examForm.questions[index]);
+  console.log("examForm", examForm);
 
   return (
     <div className="container">
       <h1>Create Exam</h1>
-      <DropDown
-        defaultValue={examForm.subjectName}
-        name="subjectName"
-        optionField={subjectNameField}
-        label="Select Subject Name:"
-        onChange={handleSubjectNameChange}
-        error={error}
-      />
+
       <div className="m-2">
         <h3>Question {index + 1}</h3>
         <div>
@@ -173,24 +206,54 @@ const CreateExam = () => {
                         })}
                       </div>
                     );
+                  case "select":
+                    return (
+                      <DropDown
+                        defaultValue={subjectName}
+                        name="subjectName"
+                        optionField={v.subjectNameField}
+                        label={v.label}
+                        onChange={handleSubjectNameChange}
+                        error={error}
+                      />
+                    );
                 }
               }
             })}
           </form>
         </div>
       </div>
-
+      <div>
+        {Object.keys(examForm).map((value, i) => {
+          return (
+            error[value] && <span style={{ color: "red" }}>{error[value]}</span>
+          );
+        })}
+      </div>
       <div className="row">
         <Button clickHandler={handlePrevious} disabled={index <= 0}>
           Pre
         </Button>
         <Button clickHandler={() => setFields(reset(fields))}>Clear</Button>
-        <Button disabled={index < 14} type="submit">
-          Submit
-        </Button>
-        <Button clickHandler={handleNext} disabled={index >= 14}>
-          Next
-        </Button>
+        {id ? (
+          <Button clickHandler={handleSubmit} disabled={index < 15 && !preShow}>
+            Submit
+          </Button>
+        ) : (
+          <Button clickHandler={handleSubmit} disabled={index < 15 && !preShow}>
+            Submit
+          </Button>
+        )}
+
+        {!preShow ? (
+          <Button clickHandler={handleNext} disabled={index >= 15}>
+            Next
+          </Button>
+        ) : (
+          <Button disabled={index >= 15} clickHandler={handleUpdate}>
+            Update
+          </Button>
+        )}
       </div>
     </div>
   );

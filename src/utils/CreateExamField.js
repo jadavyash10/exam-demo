@@ -1,14 +1,17 @@
-export const subjectNameField = [
-  "C",
-  "C++",
-  "Java",
-  "Javascript",
-  "Python",
-  "Computer Networks",
-  "Data Structure",
-];
-
 const CreateExamField = [
+  {
+    type: "select",
+    label: "Select Subject Name:",
+    subjectNameField: [
+      "C",
+      "C++",
+      "Java",
+      "Javascript",
+      "Python",
+      "Computer Networks",
+      "Data Structure",
+    ],
+  },
   {
     type: "text",
     name: "question",
@@ -47,11 +50,11 @@ const CreateExamField = [
       },
     ],
   },
-  // {
-  //   type: "text",
-  //   name: "notes",
-  //   id: "notes",
-  // },
+  {
+    type: "text",
+    name: "note",
+    id: "note",
+  },
   // {
   //   type: "text",
   //   name: "notes2",
@@ -60,14 +63,3 @@ const CreateExamField = [
 ];
 
 export default CreateExamField;
-
-
-
-
-
-
-
-
-
-
-

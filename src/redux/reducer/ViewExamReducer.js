@@ -1,4 +1,4 @@
-import { VIEW_EXAM_ERROR, VIEW_EXAM_SUCCESS } from "../constant/Index";
+import { DELETE_EXAM, VIEW_EXAM_ERROR, VIEW_EXAM_SUCCESS } from "../constant/Index";
 
 const initialState = {
   allExam: [],
@@ -13,6 +13,11 @@ const viewExamReducer = (state = initialState, action) => {
         allExam: [...action.payload],
       };
     case VIEW_EXAM_ERROR:
+      return {
+        ...state,
+        message: action.payload,
+      };
+    case DELETE_EXAM:
       return {
         ...state,
         message: action.payload,

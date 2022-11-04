@@ -42,7 +42,6 @@ const ViewStudentDetail = () => {
             );
           })}
         </div>
-        {/* <Table th={["No.", "Name", "Email"]} tableData={ViewStudentData} /> */}
       </div>
     </div>
   );

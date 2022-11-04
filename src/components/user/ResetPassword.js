@@ -11,6 +11,7 @@ import Validation from "../Validation";
 import Button from "../../reusable/Button";
 import { resetPassField } from "../../utils/resetPassField";
 import Form from "../../reusable/Form";
+import { errorValidate } from "../../utils/Function";
 
 const ResetPassword = () => {
   const { users, message, errors } = useSelector(
@@ -21,22 +22,14 @@ const ResetPassword = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value, users);
-    dispatch(resetpasswordError({ [name]: newError }));
+    dispatch(resetpasswordError({ [name]: Validation(name, value, users) }));
     dispatch(resetpasswordOnChange({ [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const error = {};
-    Object.entries(users).forEach(([name, value], i) => {
-      const newerror = Validation(name, value, users);
-      if (newerror) {
-        error[name] = newerror;
-      }
-    });
-    if (Object.keys(error).length > 0) {
-      dispatch(resetpasswordError(error));
+    if (Object.keys(errorValidate(users)).length > 0) {
+      dispatch(resetpasswordError(errorValidate(users)));
       return;
     }
     dispatch(resetpasswordSubmit(navigate));
