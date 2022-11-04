@@ -2,11 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import showStudentDatass from "../../redux/action/ShowStudentDataAction";
-import showStudentData from "../../redux/action/ShowStudentDataAction";
-import { axiosApi } from "../axios";
-import Button from "../../reusable/Button";
-import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
-import { Link } from "react-router-dom";
 import Table from "../../reusable/Table";
 
 const TeacherDashboard = () => {

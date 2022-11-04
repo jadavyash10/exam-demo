@@ -9,6 +9,7 @@ import SignUpReducer from "./SignUpReducer";
 import verifiedStudentDataReducer from "./verifiedStudentDataReducer";
 import viewExamReducer from "./ViewExamReducer";
 import ViewStudentDetailReducer from "./ViewStudentDetailReducer";
+import viewExamDetailReducer from "./ViewExamDetailReducer";
 
 const rootReducer = combineReducers({
   signUp: SignUpReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   viewStudentDetail: ViewStudentDetailReducer,
   createExam: createExamReducer,
   viewExam: viewExamReducer,
+  viewExamDetail: viewExamDetailReducer,
 });
 
 export default rootReducer;

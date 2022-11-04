@@ -1,7 +1,14 @@
-const Button = ({ clickHandler, children ,...input}) => {
+const Button = ({ clickHandler, children, className, ...input }) => {
   return (
     <div className="col-1">
-      <button type="button" className='btn btn-primary' onClick={clickHandler} {...input}>{children}</button>
+      <button
+        type="button"
+        className={className ? `btn ${className}` : "btn btn-primary"}
+        onClick={clickHandler}
+        {...input}
+      >
+        {children}
+      </button>
     </div>
   );
 };

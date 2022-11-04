@@ -9,6 +9,7 @@ import {
 } from "../../redux/action/SignUpAction";
 import Button from "../../reusable/Button";
 import Form from "../../reusable/Form";
+import { errorValidate } from "../../utils/Function";
 import { sigupField } from "../../utils/signupFields";
 import Validation from "../Validation";
 
@@ -20,22 +21,14 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value);
-    dispatch(signUpError({ [name]: newError }));
+    dispatch(signUpError({ [name]: Validation(name, value) }));
     dispatch(signUpOnChange({ [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const error = {};
-    Object.entries(users).forEach(([name, value], i) => {
-      const newerror = Validation(name, value);
-      if (newerror) {
-        error[name] = newerror;
-      }
-    });
-    if (Object.keys(error).length > 0) {
-      dispatch(signUpError(error));
+    if (Object.keys(errorValidate(users)).length > 0) {
+      dispatch(signUpError(errorValidate(users)));
       return;
     }
     dispatch(signUpSubmit(navigate));

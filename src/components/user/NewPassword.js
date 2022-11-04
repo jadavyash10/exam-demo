@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../../reusable/Input";
 import Button from "../../reusable/Button";
 import {
   newpasswordError,
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { newPasswordField } from "../../utils/newPasswordFields";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Form from "../../reusable/Form";
+import { errorValidate } from "../../utils/Function";
 
 const NewPassword = () => {
   const { users, message, errors } = useSelector((state) => state.newPassword);
@@ -20,22 +20,15 @@ const NewPassword = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value, users);
-    dispatch(newpasswordError({ [name]: newError }));
+    dispatch(newpasswordError({ [name]: Validation(name, value, users) }));
     dispatch(newpasswordOnChange({ [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const error = {};
-    Object.entries(users).forEach(([name, value], i) => {
-      const newerror = Validation(name, value, users);
-      if (newerror) {
-        error[name] = newerror;
-      }
-    });
-    if (Object.keys(error).length > 0) {
-      dispatch(newpasswordError(error));
+
+    if (Object.keys(errorValidate(users)).length > 0) {
+      dispatch(newpasswordError(errorValidate(users)));
       return;
     }
     dispatch(newpasswordSubmit(navigate));
@@ -52,7 +45,6 @@ const NewPassword = () => {
             error={errors}
             handleChange={handleChange}
           />
-
           <div>
             <Button clickHandler={handleSubmit}>Submit</Button>
           </div>

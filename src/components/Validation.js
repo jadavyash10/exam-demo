@@ -16,21 +16,21 @@ const Validation = (name, value, userData) => {
       return !value
         ? "please enter a password"
         : !pass.test(value)
-        ? "password should contain at least one number and one special character"
+        ? "password should be more than four characters"
         : "";
 
     case "oldPassword":
       return !value
         ? "please enter a password"
         : !pass.test(value)
-        ? "password should contain at least one number and one special character"
+        ? "password should be more than four characters "
         : "";
 
     case "Password":
       return !value
         ? "please enter a password"
         : !pass.test(value)
-        ? "password should contain at least one number and one special character"
+        ? "password should be more than four characters"
         : "";
 
     case "ConfirmPassword":
@@ -62,6 +62,9 @@ const Validation = (name, value, userData) => {
       return !value ? "Please Enter a ans3" : "";
 
     case "ans4":
+      return !value ? "Please Enter a ans4" : "";
+
+    case "notes":
       return !value ? "Please Enter a ans4" : "";
 
     default:

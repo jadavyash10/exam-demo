@@ -1,4 +1,4 @@
-import { Navigate, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Login from "../components/user/Login";
 import Home from "../page/Home.page";
 import Signup from "../components/user/Signup";
@@ -11,7 +11,8 @@ import VerifiedStudentData from "../components/teacher/VerifiedStudentData";
 import ViewStudentDetail from "../components/teacher/ViewStudentDetail";
 import CreateExam from "../components/teacher/CreateExam";
 import StudentDashboard from "../components/student/StudentDashboard";
-import ViewExam from '../components/teacher/ViewExam';
+import ViewExam from "../components/teacher/ViewExam";
+import ViewExamDetail from '../components/teacher/ViewExamDetail';
 
 export const RoutesArr = [
   {
@@ -78,6 +79,12 @@ export const RoutesArr = [
     path: "/viewExam",
     element: <ViewExam />,
     id: "viewExam",
+    privateElement: true,
+  },
+  {
+    path: "/viewExamDetail/:id",
+    element: <ViewExamDetail />,
+    id: "detail",
     privateElement: true,
   },
   {

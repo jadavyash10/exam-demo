@@ -4,12 +4,12 @@ import forgotPasswordSubmit, {
   forgotPassError,
   forgotPassOnChange,
 } from "../../redux/action/ForgotPasswordAction";
-import Input from "../../reusable/Input";
 import Validation from "../Validation";
 import Button from "../../reusable/Button";
 import { useNavigate } from "react-router-dom";
 import Form from "../../reusable/Form";
 import forgotPassField from "../../utils/forgotPassworField";
+import { errorValidate } from "../../utils/Function";
 
 const Forgotpassword = () => {
   const { users, message, errors } = useSelector(
@@ -20,22 +20,15 @@ const Forgotpassword = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value);
-    dispatch(forgotPassError({ [name]: newError }));
+    dispatch(forgotPassError({ [name]: Validation(name, value) }));
     dispatch(forgotPassOnChange({ [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const error = {};
-    Object.entries(users).forEach(([name, value], i) => {
-      const newerror = Validation(name, value);
-      if (newerror) {
-        error[name] = newerror;
-      }
-    });
-    if (Object.keys(error).length > 0) {
-      dispatch(forgotPassError(error));
+
+    if (Object.keys(errorValidate(users)).length > 0) {
+      dispatch(forgotPassError(errorValidate(users)));
       return;
     }
     dispatch(forgotPasswordSubmit(navigate));
