@@ -1,7 +1,11 @@
 import { axiosApi } from "../../components/axios";
 import { toastError, toastSuccess } from "./toastAction";
 import { token } from "../../utils/Constant";
-import { CREATE_EXAM_FAIL, CREATE_EXAM_SUCCESS } from "../constant/Index";
+import {
+  CREATE_EXAM_DATA,
+  CREATE_EXAM_FAIL,
+  CREATE_EXAM_SUCCESS,
+} from "../constant/Index";
 
 export const createExamSuccess = (state) => {
   return {
@@ -17,8 +21,15 @@ export const createExamFail = (state) => {
   };
 };
 
+export const createExamData = (subjectName, questions, notes) => {
+  return {
+    type: CREATE_EXAM_DATA,
+    payload: { subjectName, questions, notes },
+  };
+};
+
 export const createExamSubmit = (initialState, navigate) => {
-  console.log(token);
+  const token = localStorage.getItem("userToken");
   return (dispatch) => {
     axiosApi
       .post("/dashboard/Teachers/Exam", initialState, {

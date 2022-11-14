@@ -4,18 +4,19 @@ import viewExam, { deleteExam } from "../../redux/action/ViewExamAction";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../../reusable/Button";
-import viewExamDetail from "../../redux/action/ViewExamDetailAction";
 
 const ViewExam = () => {
-  const examData = useSelector(({ viewExam }) => viewExam.allExam);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(viewExam());
-  }, []);
-
+  },[]);
+  
   const handleDelete = (id) => {
     dispatch(deleteExam(id));
   };
+  const examData = useSelector(({ viewExam }) => viewExam.allExam);
+
   return (
     <div className="container">
       <h1>View Exams</h1>
@@ -47,7 +48,7 @@ const ViewExam = () => {
                       })}
                     </td>
                     <td>
-                      <Link to={`/viewExamDetail/${value._id}`}>View</Link>
+                      <Link to={`/EditExam/${value._id}`}>View</Link>
                     </td>
                     <td>
                       <Button
@@ -68,4 +69,4 @@ const ViewExam = () => {
   );
 };
 
-export default ViewExam;
+export default React.memo(ViewExam);

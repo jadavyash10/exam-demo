@@ -21,6 +21,7 @@ export const viewExamDetailError = (state) => {
 };
 
 const viewExamDetail = (id) => {
+  const token = localStorage.getItem("userToken")
   console.log("first");
   return async (dispatch) => {
     console.log("first");

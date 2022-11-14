@@ -58,17 +58,19 @@ export const first = (second) => {
   }
  }
 const viewExam = () => {
+ let token= localStorage.getItem("userToken")
   return async (dispatch) => {
     await axiosApi
-      .get(`dashboard/Teachers/viewExam`, {
-        headers: {
-          "access-token": token,
-        },
-      })
-      .then((res) => {
-        if (res.data.statusCode === 200) {
-          dispatch(viewExamSuccess(res.data.data));
-        } else {
+    .get(`dashboard/Teachers/viewExam`, {
+      headers: {
+        "access-token": token,
+      },
+    })
+    .then((res) => {
+      if (res.data.statusCode === 200) {
+        dispatch(viewExamSuccess(res.data.data));
+      } else {
+          console.log(res.data.message)
           dispatch(viewExamError(res.data.message));
         }
       })

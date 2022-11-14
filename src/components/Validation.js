@@ -1,6 +1,7 @@
 import { pass, re } from "../utils/regex";
 
 const Validation = (name, value, userData) => {
+  console.log(userData)
   switch (name) {
     case "name":
       return !value ? "Please enter a username" : "";
@@ -16,21 +17,21 @@ const Validation = (name, value, userData) => {
       return !value
         ? "please enter a password"
         : !pass.test(value)
-        ? "password should be more than four characters"
+        ? "password Not valid"
         : "";
 
     case "oldPassword":
       return !value
         ? "please enter a password"
         : !pass.test(value)
-        ? "password should be more than four characters "
+        ? "password Not valid "
         : "";
 
     case "Password":
       return !value
         ? "please enter a password"
         : !pass.test(value)
-        ? "password should be more than four characters"
+        ? "password Not valid"
         : "";
 
     case "ConfirmPassword":
