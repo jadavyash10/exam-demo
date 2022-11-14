@@ -1,7 +1,7 @@
 const CreateExamField = [
   {
     type: "select",
-    label: "Select Subject Name:",
+    label: "Subject Name:",
     subjectNameField: [
       "C",
       "C++",
@@ -14,17 +14,20 @@ const CreateExamField = [
   },
   {
     type: "text",
+    label: "Question",
     name: "question",
     id: "question",
   },
   {
     type: "text",
+    label: "Answer",
     name: "answer",
     id: "answer",
     disabled: true,
   },
   {
     type: "radio",
+    label: "Answer",
     name: "answer",
     id: "answer",
     value: [
@@ -55,11 +58,6 @@ const CreateExamField = [
     name: "note",
     id: "note",
   },
-  // {
-  //   type: "text",
-  //   name: "notes2",
-  //   id: "notes2",
-  // }
 ];
 
 export default CreateExamField;

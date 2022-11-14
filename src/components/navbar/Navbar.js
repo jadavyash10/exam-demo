@@ -41,6 +41,7 @@ const Navbar = () => {
       {token && role === "student" ? (
         <>
           <Link to="/studentDashboard">Dashboard</Link>
+          <Link to="/studentProfile">studentProfile</Link>
         </>
       ) : null}
       {token && role === "teacher" ? (

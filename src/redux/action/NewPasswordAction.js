@@ -7,7 +7,6 @@ import {
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 import { toastError, toastSuccess } from "./toastAction";
-import { token } from "../../utils/Constant";
 
 export const newpasswordSuccess = (message) => {
   return {
@@ -41,16 +40,12 @@ export const newpasswordClear = () => {
   };
 };
 
-export const newpasswordSubmit = (navigate) => {
+export const newpasswordSubmit = (token,navigate) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.newPassword.users;
     await axiosApi
-      .post(`users/ForgotPassword/Verify?token=${token}`, userData,{
-       headers: {
-        Authorization : token,
-       },
-      })
+      .post(`users/ForgotPassword/Verify?token=${token}`, userData,)
       .then((res) => {
         console.log("new", res);
         if (res.data.statusCode === 200) {

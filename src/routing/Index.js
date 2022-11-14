@@ -13,6 +13,9 @@ import CreateExam from "../components/teacher/CreateExam";
 import StudentDashboard from "../components/student/StudentDashboard";
 import ViewExam from "../components/teacher/ViewExam";
 import ViewExamDetail from '../components/teacher/ViewExamDetail';
+import EditExam from '../components/teacher/EditExam';
+import StudentProfile from '../components/student/StudentProfile';
+import EditStudentProfile from '../components/student/EditStudentProfile';
 
 export const RoutesArr = [
   {
@@ -82,8 +85,8 @@ export const RoutesArr = [
     privateElement: true,
   },
   {
-    path: "/viewExamDetail/:id",
-    element: <ViewExamDetail />,
+    path: "/EditExam/:id",
+    element: <EditExam />,
     id: "detail",
     privateElement: true,
   },
@@ -91,6 +94,18 @@ export const RoutesArr = [
     path: "/studentDashboard",
     element: <StudentDashboard />,
     id: "studentDashboard",
+    privateElement: true,
+  },
+  {
+    path: "/studentProfile",
+    element: <StudentProfile />,
+    id: "studentProfile",
+    privateElement: true,
+  },
+  {
+    path: "/EditStuProfile/:id",
+    element: <EditStudentProfile />,
+    id: "EditStuProfile",
     privateElement: true,
   },
 ];

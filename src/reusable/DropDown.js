@@ -2,11 +2,12 @@ import React from "react";
 
 const DropDown = (props) => {
   const { value, name, optionField, label ,onChange ,error} = props;
+  console.log(value)
   return (
     <div>
       <div>
         <label>{label}</label>
-        <select value={value} name={name} onChange={onChange}>
+        <select value={value} name={name} onChange={onChange} >
           <option value="">select Subject Name</option>
           {optionField?.map((value, index) => {
             return (

@@ -7,10 +7,10 @@ const ViewExamDetail = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const viewExamData = useSelector(({ viewExamDetail }) => viewExamDetail.data);
+
   useEffect(() => {
     dispatch(viewExamDetail(id));
   }, []);
-  console.log(viewExamData);
   return (
     <div className="container">
       <div className="row">

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  signUpClear,
   signUpError,
   signUpOnChange,
   signUpSubmit,
@@ -15,6 +16,10 @@ import Validation from "../Validation";
 
 const Signup = () => {
   const { users, message, errors } = useSelector((state) => state.signUp);
+
+  useEffect(() => {
+    dispatch(signUpClear());
+  }, []);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
