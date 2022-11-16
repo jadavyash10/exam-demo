@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createExamSubmit } from "../../redux/action/CreateExamAction";
 import { editExamPut } from "../../redux/action/EditExamAction";
+import { giveExam } from "../../redux/action/ExamPaperAction";
 
 const CreateExam = ({ data, title, id }) => {
   const initialState = {
@@ -28,13 +29,14 @@ const CreateExam = ({ data, title, id }) => {
 
   const [examForm, setExamForm] = useState(initialState);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [editData, setEditData] = useState();
+  const [examData, setExamData] = useState();
+  const role = localStorage.getItem("role");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    data !== undefined && setEditData(data);
+    data !== undefined && setExamData(data);
   }, [data]);
 
   useEffect(() => {
@@ -44,25 +46,25 @@ const CreateExam = ({ data, title, id }) => {
 
   useEffect(() => {
     const data1 =
-      editData?.questions !== undefined
-        ? editData?.questions[currentQuestionIndex]
+      examData?.questions !== undefined
+        ? examData?.questions[currentQuestionIndex]
         : {
             question: "",
             answer: "",
             options: ["", "", "", ""],
           };
-    const subName = editData
-      ? editData?.subjectName !== undefined
-        ? editData?.subjectName
+    const subName = examData
+      ? examData?.subjectName !== undefined
+        ? examData?.subjectName
         : ""
       : "";
-    const note = editData
-      ? editData?.notes !== undefined
-        ? editData?.notes[currentQuestionIndex]
+    const note = examData
+      ? examData?.notes !== undefined
+        ? examData?.notes[currentQuestionIndex]
         : ""
       : "";
 
-    editData != undefined &&
+    examData != undefined &&
       setExamForm({
         ...examForm,
         subjectName: subName,
@@ -74,7 +76,7 @@ const CreateExam = ({ data, title, id }) => {
         ans4: data1?.options[3],
         note: note,
       });
-  }, [editData, data]);
+  }, [examData, data]);
 
   const {
     subjectName,
@@ -170,12 +172,12 @@ const CreateExam = ({ data, title, id }) => {
       return;
     }
 
-    handleAddItems();
+    role !== "student" && handleAddItems();
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
   const handlePreviousValue = (id) => {
-    const res = data === undefined ? questions[id] : editData.questions[id];
+    const res = data === undefined ? questions[id] : examData.questions[id];
     const obj = {
       question: res?.question,
       answer: res?.answer,
@@ -183,7 +185,7 @@ const CreateExam = ({ data, title, id }) => {
       ans2: res?.options[1],
       ans3: res?.options[2],
       ans4: res?.options[3],
-      note: data === undefined ? notes[id] : editData?.notes[id],
+      note: data === undefined ? notes[id] : examData?.notes[id],
     };
     setExamForm({ ...examForm, ...obj });
   };
@@ -191,6 +193,17 @@ const CreateExam = ({ data, title, id }) => {
   const handlePreviousButton = () => {
     handlePreviousValue(currentQuestionIndex - 1);
     setCurrentQuestionIndex(currentQuestionIndex - 1);
+  };
+
+  const handleSkipButton = () => {
+    let clone = examData.questions[currentQuestionIndex];
+    clone = {
+      ...clone,
+      answer: "",
+    };
+    examData?.questions?.splice(currentQuestionIndex, 1, clone);
+    setExamData({ ...examData });
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
   const handlePreValueUpdate = () => {
@@ -205,7 +218,7 @@ const CreateExam = ({ data, title, id }) => {
     }
     if (
       handleDuplicateQuestion(
-        data === undefined ? questions : editData.questions,
+        data === undefined ? questions : examData.questions,
         question
       )
     ) {
@@ -227,14 +240,14 @@ const CreateExam = ({ data, title, id }) => {
         notes: [...notes],
       });
     } else {
-      editData?.questions?.splice(currentQuestionIndex, 1, obj);
+      examData?.questions?.splice(currentQuestionIndex, 1, obj);
       note
-        ? editData?.notes?.splice(currentQuestionIndex, 1, note)
-        : editData?.notes?.splice(currentQuestionIndex, 1);
+        ? examData?.notes?.splice(currentQuestionIndex, 1, note)
+        : examData?.notes?.splice(currentQuestionIndex, 1);
       note === undefined
-        ? editData?.notes?.splice(currentQuestionIndex, 1)
-        : editData?.notes?.splice(currentQuestionIndex, 1, note);
-      setEditData({ ...editData, subjectName: subjectName });
+        ? examData?.notes?.splice(currentQuestionIndex, 1)
+        : examData?.notes?.splice(currentQuestionIndex, 1, note);
+      setExamData({ ...examData, subjectName: subjectName });
     }
 
     clearData();
@@ -244,19 +257,27 @@ const CreateExam = ({ data, title, id }) => {
       questions.length >= currentQuestionIndex + 1 &&
         handlePreviousValue(currentQuestionIndex + 1);
     } else {
-      editData?.questions?.length >= currentQuestionIndex + 1 &&
+      examData?.questions?.length >= currentQuestionIndex + 1 &&
         handlePreviousValue(currentQuestionIndex + 1);
     }
   };
   const handleSubmit = () => {
-    const a = { subjectName, questions, notes };
-    data != undefined
-      ? dispatch(editExamPut(id, editData, navigate))
-      : dispatch(createExamSubmit(a, navigate));
+    const giveExamData = examData?.questions?.map(
+      ({ options, _id, ...rest }) => {
+        return rest;
+      }
+    );
+    const newArr = { subjectName, questions, notes };
+
+    data == undefined
+      ? dispatch(createExamSubmit(newArr, navigate))
+      : role !== "student"
+      ? dispatch(editExamPut(id, examData, navigate))
+      : dispatch(giveExam(id, giveExamData, navigate));
   };
 
   console.log("create exam", examForm);
-  console.log("edit", editData);
+  console.log("examData", examData);
 
   return (
     <div className="container">
@@ -283,6 +304,7 @@ const CreateExam = ({ data, title, id }) => {
                             id={v.id}
                             name={v.name}
                             value={examForm[v.name] || ""}
+                            disabled={role === "student"}
                             {...v}
                             onChange={handleChange}
                             error={error}
@@ -303,8 +325,10 @@ const CreateExam = ({ data, title, id }) => {
                                     name={v.name}
                                     value={examForm[value.name]}
                                     checked={
-                                      examForm[value.name] &&
-                                      examForm[value.name] === examForm.answer
+                                      (examForm[value.name] &&
+                                        examForm[value.name] ===
+                                          examForm.answer) ||
+                                      ""
                                     }
                                     onChange={handleChange}
                                   />
@@ -313,6 +337,7 @@ const CreateExam = ({ data, title, id }) => {
                                     id={value.id}
                                     className="demo"
                                     name={value.name}
+                                    disabled={role === "student"}
                                     value={examForm[value.name] || ""}
                                     onChange={handleChange}
                                   />
@@ -336,6 +361,7 @@ const CreateExam = ({ data, title, id }) => {
                           label={v.label}
                           onChange={handleChange}
                           error={error}
+                          disabled={role === "student"}
                         />
                       );
                   }
@@ -345,10 +371,13 @@ const CreateExam = ({ data, title, id }) => {
           </div>
         </div>
       )}
+
       <div className="row">
         {currentQuestionIndex < 15 ? (
           <>
-            <Button clickHandler={clearData}>Clear</Button>
+            {role === "student" ? null : (
+              <Button clickHandler={clearData}>Clear</Button>
+            )}
             <Button
               clickHandler={handlePreviousButton}
               disabled={currentQuestionIndex <= 0}
@@ -359,16 +388,40 @@ const CreateExam = ({ data, title, id }) => {
         ) : null}
 
         {data != undefined ? (
-          <>
-            <Button
-              clickHandler={
-                currentQuestionIndex != 15 ? handlePreValueUpdate : handleSubmit
-              }
-              disabled={questions.length > 15}
-            >
-              {currentQuestionIndex != 15 ? "Update" : "Submit"}
-            </Button>
-          </>
+          role !== "student" ? (
+            <>
+              <Button
+                clickHandler={
+                  currentQuestionIndex != 15
+                  ? handlePreValueUpdate
+                  : handleSubmit
+                }
+                disabled={questions.length > 15}
+                >
+                {currentQuestionIndex < 15 ? "Next" : "Submit"}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                clickHandler={handlePreValueUpdate}
+                disabled={
+                  currentQuestionIndex + 1 == examData?.questions?.length
+                }
+              >
+                Next
+              </Button>
+              <Button
+                clickHandler={handleSkipButton}
+                disabled={
+                  currentQuestionIndex + 1 == examData?.questions?.length
+                }
+              >
+                Skip
+              </Button>
+              <Button clickHandler={handleSubmit}>Submit</Button>
+            </>
+          )
         ) : (
           <Button
             clickHandler={
@@ -380,11 +433,7 @@ const CreateExam = ({ data, title, id }) => {
             }
             disabled={questions.length > 15}
           >
-            {questions.length > currentQuestionIndex
-              ? "Update"
-              : questions.length == 15
-              ? "Submit"
-              : "Next"}
+            {questions.length == 15 ? "Submit" : "Next"}
           </Button>
         )}
       </div>

@@ -2,14 +2,14 @@ import React from "react";
 
 const DropDown = (props) => {
   const { value, name, optionField, label ,onChange ,error} = props;
-  console.log(value)
   return (
     <div>
       <div>
         <label>{label}</label>
-        <select value={value} name={name} onChange={onChange} >
-          <option value="">select Subject Name</option>
-          {optionField?.map((value, index) => {
+        <select value={value} name={name} onChange={onChange} {...props}>
+          {value ?<option value={value}>{value}</option>:<option value="">select Subject Name</option>}
+          {/* <option value="">select Subject Name</option> */}
+          { optionField?.map((value, index) => {
             return (
               <option value={value} key={index}>
                 {value}
@@ -18,7 +18,7 @@ const DropDown = (props) => {
           })}
         </select>
       </div>
-      {error.subjectName && <small style={{ color: "red" }}>{error.subjectName}</small>}
+      {error && error.subjectName && <small style={{ color: "red" }}>{error.subjectName}</small>}
     </div>
   );
 };

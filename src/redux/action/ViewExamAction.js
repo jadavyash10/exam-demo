@@ -1,6 +1,7 @@
 import {
   DELETE_EXAM,
   VIEW_EXAM_ERROR,
+  VIEW_EXAM_REQ,
   VIEW_EXAM_SUCCESS,
 } from "../constant/Index";
 
@@ -8,6 +9,11 @@ import { axiosApi } from "../../components/axios";
 import { token } from "../../utils/Constant";
 import { toastError, toastSuccess } from "./toastAction";
 
+export const viewExamReq = () => {
+  return {
+    type: VIEW_EXAM_REQ,
+  };
+};
 export const viewExamSuccess = (state) => {
   return {
     type: VIEW_EXAM_SUCCESS,
@@ -52,14 +58,11 @@ export const deleteExam = (id) => {
   };
 };
 
-export const first = (second) => { 
-  return (dispatch)=>{
-    setInterval(()=>console.log("first"),1000)
-  }
- }
+
 const viewExam = () => {
  let token= localStorage.getItem("userToken")
   return async (dispatch) => {
+    dispatch(viewExamReq())
     await axiosApi
     .get(`dashboard/Teachers/viewExam`, {
       headers: {

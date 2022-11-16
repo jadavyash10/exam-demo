@@ -1,10 +1,17 @@
 import {
   VIEW_EXAM_DETAIL_ERROR,
+  VIEW_EXAM_DETAIL_REQ,
   VIEW_EXAM_DETAIL_SUCCESS,
 } from "../constant/Index";
 
 import { axiosApi } from "../../components/axios";
 import { token } from "../../utils/Constant";
+
+export const viewExamDetailReq = () => {
+  return {
+    type: VIEW_EXAM_DETAIL_REQ,
+  };
+};
 
 export const viewExamDetailSuccess = (state) => {
   return {
@@ -24,7 +31,7 @@ const viewExamDetail = (id) => {
   const token = localStorage.getItem("userToken")
   console.log("first");
   return async (dispatch) => {
-    console.log("first");
+    dispatch(viewExamDetailReq())
     await axiosApi
       .get(`dashboard/Teachers/examDetail?id=${id}`, {
         headers: {

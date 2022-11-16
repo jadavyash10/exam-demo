@@ -16,6 +16,7 @@ import ViewExamDetail from '../components/teacher/ViewExamDetail';
 import EditExam from '../components/teacher/EditExam';
 import StudentProfile from '../components/student/StudentProfile';
 import EditStudentProfile from '../components/student/EditStudentProfile';
+import GiveExam from '../components/student/GiveExam';
 
 export const RoutesArr = [
   {
@@ -108,6 +109,13 @@ export const RoutesArr = [
     id: "EditStuProfile",
     privateElement: true,
   },
+  {
+    path: "/GetExamPaper/:id",
+    element: <GiveExam />,
+    id: "GetExamPaper",
+    privateElement: true,
+  },
+
 ];
 
 const routing = (arr) => {

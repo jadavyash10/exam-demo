@@ -5,6 +5,7 @@ import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
 import Button from "../../reusable/Button";
 import { Link } from "react-router-dom";
 import Table from "../../reusable/Table";
+import Loader from "../../reusable/Loader";
 
 const VerifiedStudentData = () => {
   const dispatch = useDispatch();
@@ -13,19 +14,23 @@ const VerifiedStudentData = () => {
     dispatch(showVerifiedStudentData());
   }, []);
 
-  const verifiedStudentData = useSelector(
-    (state) => state.verifiedStudentData.allStudent
+  const { allStudent, loading } = useSelector(
+    (state) => state.verifiedStudentData
   );
   return (
     <div className="container mt-3" style={{ width: "800px" }}>
       <h1> Verified Student Data</h1>
-      <div className="">
-        <Table
-          th={["No.", "Name", "Email", "Status", "Show"]}
-          tableData={verifiedStudentData}
-          show={true}
-        />
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="">
+          <Table
+            th={["No.", "Name", "Email", "Status", "Show"]}
+            tableData={allStudent}
+            show={true}
+          />
+        </div>
+      )}
     </div>
   );
 };
