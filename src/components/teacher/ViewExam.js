@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../../reusable/Button";
 import Loader from "../../reusable/Loader";
+import TableReusable from "../../reusable/TableReusable";
 
 const ViewExam = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,17 @@ const ViewExam = () => {
     dispatch(deleteExam(id));
   };
   const { allExam, loading } = useSelector(({ viewExam }) => viewExam);
+
+  const column = [
+    { heading: "No." },
+    { heading: "SubjectName", value: "subjectName" },
+    { heading: "Email", value: "email" },
+    { heading: "__V", value: "__v" },
+    { heading: "Notes", value: "notes" },
+    { heading: "Edit", path: `/EditExam` },
+    { heading: "Delete", onClick: handleDelete },
+  ];
+
   return (
     <div className="container">
       <h1>View Exams</h1>
@@ -24,7 +36,10 @@ const ViewExam = () => {
         <Loader />
       ) : (
         <div className="row">
-          <div className="col-10">
+          <div>
+            <TableReusable header={column} data={allExam} />
+          </div>
+          {/* <div className="col-10">
             <table className="table table-striped table-hover ">
               <thead>
                 <tr>
@@ -66,7 +81,7 @@ const ViewExam = () => {
                 })}
               </tbody>
             </table>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

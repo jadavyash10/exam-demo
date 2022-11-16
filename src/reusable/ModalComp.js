@@ -7,7 +7,7 @@ const ModalComp = (props) => {
     <Modal
       {...props}
       size="lg"
-      aria-labelled
+      aria-label
       by="contained-modal-title-vcenter"
       centered
     >

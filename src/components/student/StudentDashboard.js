@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import Loader from "../../reusable/Loader";
 import ModalComp from "../../reusable/ModalComp";
 import Button from "../../reusable/Button";
-import GiveExam from './GiveExam';
+import GiveExam from "./GiveExam";
+import TableReusable from "../../reusable/TableReusable";
 
 const StudentDashboard = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -25,8 +26,17 @@ const StudentDashboard = () => {
     let i = allExamData.findIndex((x) => x._id == id);
     setModalData(allExamData[i]);
   };
-  console.log("data", modalData);
-  console.log("allExamData", allExamData);
+
+  const column = [
+    { heading: "No." },
+    { heading: "SubjectName", value: "subjectName" },
+    { heading: "Email", value: "email" },
+    { heading: "Result", value: "Result" },
+    { heading: "Notes", value: "notes" },
+    { heading: "Detail", onClick: handleModalClick },
+    { heading: "Give Exam", path: `/GetExamPaper` ,className: "btn btn-primary"},
+  ];
+
   return (
     <div>
       {loading ? (
@@ -34,8 +44,10 @@ const StudentDashboard = () => {
       ) : (
         <div className="container">
           <h1>All Exams</h1>
-
-          <div className="row">
+          <div>
+            <TableReusable header={column} data={allExamData} />
+          </div>
+          {/* <div className="row">
             <div className="col-10">
               <table className="table table-striped table-hover ">
                 <thead>
@@ -90,7 +102,7 @@ const StudentDashboard = () => {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
           {modalShow ? (
             <ModalComp
               show={modalShow}

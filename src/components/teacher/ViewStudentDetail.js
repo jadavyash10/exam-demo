@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
-import Table from "../../reusable/Table";
 import Loader from "../../reusable/Loader";
+import TableReusable from '../../reusable/TableReusable';
 
 const ViewStudentDetail = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,15 @@ const ViewStudentDetail = () => {
   useEffect(() => {
     dispatch(viewStudentDetail(id));
   }, []);
+
+  const column = [
+    { heading: "No." },
+    { heading: "SubjectName", value: "subjectName" },
+    { heading: "Result Status", value: "resultStatus" },
+    { heading: "Rank", value: "rank" },
+    { heading: "Score", value: "score" },
+    { heading: "__V", value: "__v" },
+  ];
 
   return (
     <div className="container mt-3" style={{ width: "800px" }}>
@@ -29,7 +38,9 @@ const ViewStudentDetail = () => {
                 <div key={id}>
                   <h4>Name :{v.name}</h4>
                   <p>Email : {v.email}</p>
-                  {v.Result.map((v, i) => {
+            <TableReusable header={column} data={v?.Result}/>
+
+                  {/* {v.Result.map((v, i) => {
                     return (
                       <div key={v.id}>
                         <p>Rank :{v.rank}</p>
@@ -40,7 +51,7 @@ const ViewStudentDetail = () => {
                         <hr />
                       </div>
                     );
-                  })}
+                  })} */}
                 </div>
               );
             })}
