@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import viewExamDetail from "../../redux/action/ViewExamDetailAction";
 import viewExam from "../../redux/action/ViewExamAction";
+import Loader from '../../reusable/Loader';
 
 const EditExam = () => {
   const dispatch = useDispatch();
@@ -14,14 +15,17 @@ const EditExam = () => {
   const viewExamDetailData = useSelector(
     ({ viewExamDetail }) => viewExamDetail.data
   );
+  const loading1= useSelector(({ viewExamDetail }) => viewExamDetail.loading);
+  const { allExam, loading } = useSelector(({ viewExam }) => viewExam);
 
-  const viewExamData = useSelector(({ viewExam }) => viewExam.allExam);
-  let index = viewExamData.findIndex((x) => x._id == id);
+  console.log("loading", loading)
+
+  let index = allExam.findIndex((x) => x._id == id);
 
   const data = {
-    subjectName: viewExamData[index]?.subjectName,
+    subjectName: allExam[index]?.subjectName,
     questions: viewExamDetailData?.questions,
-    notes: viewExamData[index]?.notes,
+    notes: allExam[index]?.notes,
   };
 
   useEffect(() => {
@@ -29,7 +33,14 @@ const EditExam = () => {
     dispatch(viewExam());
   }, [dispatch]);
 
-  return <CreateExam data={data} title="Edit Exam" id={id} />;
+  
+  {
+    if (loading && loading1) {
+     return <Loader />;
+    } else {
+     return <CreateExam data={data} title="Edit Exam" id={id} />;
+    }
+  }
 };
 
-export default React.memo(EditExam);
+export default EditExam;

@@ -13,6 +13,7 @@ import viewExamDetailReducer from "./ViewExamDetailReducer";
 import EditExamReducer from './EditExamReducer';
 import getStuExamReducer from './GetAllExamreducer';
 import stuDataProReducer from "./StudentProReducer";
+import getExamPaperReducer from './ExamPaperReducer';
 
 const rootReducer = combineReducers({
   signUp: SignUpReducer,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
   viewExamDetail: viewExamDetailReducer,
   EditExam:EditExamReducer,
   getStuExam:getStuExamReducer,
-  getStuProfile:stuDataProReducer
+  getStuProfile:stuDataProReducer,
+  getExamPaper:getExamPaperReducer
 
 });
 

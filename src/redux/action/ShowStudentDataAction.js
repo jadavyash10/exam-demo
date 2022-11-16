@@ -1,6 +1,15 @@
-import { SHOW_STUDENTDATA, SHOW_STUDENTDATA_ERROR } from "../constant/Index";
+import {
+  SHOW_STUDENTDATA,
+  SHOW_STUDENTDATA_ERROR,
+  SHOW_STUDENTDATA_REQ,
+} from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 
+export const showStudentDataReq = () => {
+  return {
+    type: SHOW_STUDENTDATA_REQ,
+  };
+};
 export const showStudentDataSuceess = (state) => {
   return {
     type: SHOW_STUDENTDATA,
@@ -19,6 +28,7 @@ const showStudentDatass = () => {
   const token = localStorage.getItem("userToken");
 
   return (dispatch) => {
+    dispatch(showStudentDataReq());
     axiosApi
       .get("dashboard/Teachers", {
         headers: {
@@ -26,7 +36,7 @@ const showStudentDatass = () => {
         },
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.data.statusCode === 200) {
           dispatch(showStudentDataSuceess(res.data.data));
         } else {

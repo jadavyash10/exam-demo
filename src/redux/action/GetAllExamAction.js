@@ -1,7 +1,12 @@
-import { Get_ALL_EXAM_SUCCESS, Get_ALL_EXAM_ERROR } from "../constant/Index";
+import { Get_ALL_EXAM_SUCCESS, Get_ALL_EXAM_ERROR, Get_ALL_EXAM_REQ } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 import { token } from '../../utils/Constant';
 
+export const getAllExamReq = () => {
+  return {
+    type: Get_ALL_EXAM_REQ,
+  };
+};
 export const getAllExamSuccess = (state) => {
   return {
     type: Get_ALL_EXAM_SUCCESS,
@@ -17,7 +22,9 @@ export const getAllExamError = (state) => {
 };
 
 const getAllExams = () => {
+  const token = localStorage.getItem("userToken")
   return (dispatch) => {
+    dispatch(getAllExamReq())
     axiosApi
       .get("student/studentExam", {
         headers: {

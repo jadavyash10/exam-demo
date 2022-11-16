@@ -1,9 +1,16 @@
 import {
   SHOW_VERIFIED_STUDENTDATA,
   SHOW_VERIFIED_STUDENTDATA_ERROR,
+  SHOW_VERIFIED_STUDENTDATA_REQ,
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 
+export const showVerifiedStudentDataReq = (sate) => {
+  return {
+    type: SHOW_VERIFIED_STUDENTDATA_REQ,
+   
+  };
+};
 export const showVerifiedStudentDataSuceess = (state) => {
   return {
     type: SHOW_VERIFIED_STUDENTDATA,
@@ -22,6 +29,7 @@ const showVerifiedStudentData = () => {
   const token = localStorage.getItem("userToken");
 
   return (dispatch) => {
+    dispatch(showVerifiedStudentDataReq())
     axiosApi
       .get("dashboard/Teachers/StudentForExam", {
         headers: {
