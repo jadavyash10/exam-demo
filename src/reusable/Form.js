@@ -56,39 +56,6 @@ const Form = ({ field, Data, error, handleChange }) => {
           }
         }
       )}
-      {/* {field?.map(({ name, label, placeholder, type, id ,errorShow}, i) => {
-        if (type === "radio") {
-          return (
-            <React.Fragment key={id}>
-              <Radio
-                id={id}
-                name={name}
-                value={label}
-                checked={label === userData[name] || ""}
-                type={type}
-                onChange={handleChange}
-                label={label}
-                error={error || ""}
-                errorShow={errorShow || ""}
-              />
-            </React.Fragment>
-          );
-        }
-        return (
-          <div key={id} className="row">
-            <Input
-              id={id}
-              label={label}
-              name={name}
-              value={userData[name]}
-              type={type}
-              placeholder={placeholder}
-              onChange={handleChange}
-              error={error || ""}
-            />
-          </div>
-        );
-      })} */}
     </>
   );
 };

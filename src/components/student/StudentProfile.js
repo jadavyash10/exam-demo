@@ -3,16 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { stuDataReq } from "../../redux/action/StudentProfileAction";
 import { Link } from "react-router-dom";
 import Loader from "../../reusable/Loader";
+import TableReusable from "../../reusable/TableReusable";
 
 const StudentProfile = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(stuDataReq());
   }, []);
+
   const stuData = useSelector(({ getStuProfile }) => getStuProfile.data);
   const loading = useSelector(({ getStuProfile }) => getStuProfile.loading);
 
-  console.log("stuData", stuData);
+  const column = [
+    { heading: "No." },
+    { heading: "Name", value: "name" },
+    { heading: "Email", value: "email" },
+    { heading: "Edit", path: `/EditStuProfile` },
+  ];
   return (
     <div>
       <h1>Student Profile</h1>
@@ -20,7 +28,9 @@ const StudentProfile = () => {
         <Loader />
       ) : (
         <div className="container">
-          <div className="row">
+          <TableReusable header={column} data={stuData} />
+
+          {/* <div className="row">
             <div className="col-10">
               <table className="table table-striped table-hover ">
                 <thead>
@@ -48,7 +58,7 @@ const StudentProfile = () => {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

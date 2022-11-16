@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { createExamSubmit } from "../../redux/action/CreateExamAction";
 import { editExamPut } from "../../redux/action/EditExamAction";
 import { giveExam } from "../../redux/action/ExamPaperAction";
+import giveExamFields from '../../utils/GiveExamFields';
 
 const CreateExam = ({ data, title, id }) => {
   const initialState = {
@@ -164,11 +165,11 @@ const CreateExam = ({ data, title, id }) => {
     }
 
     if (handleDuplicateObject(obj.options)) {
-      alert("Options are same ");
+      alert("Options Are Repeated ");
       return;
     }
     if (handleDuplicateQuestion(questions, question)) {
-      alert("Question are same ");
+      alert("Question Are Repeated ");
       return;
     }
 
@@ -185,7 +186,7 @@ const CreateExam = ({ data, title, id }) => {
       ans2: res?.options[1],
       ans3: res?.options[2],
       ans4: res?.options[3],
-      note: data === undefined ? notes[id] : examData?.notes[id],
+      note: role !== "student" ? data === undefined ? notes[id] : examData?.notes[id] :"",
     };
     setExamForm({ ...examForm, ...obj });
   };
@@ -213,7 +214,7 @@ const CreateExam = ({ data, title, id }) => {
     }
 
     if (handleDuplicateObject(obj.options)) {
-      alert("Options are same ");
+      alert("Options Are Repeated");
       return;
     }
     if (
@@ -222,7 +223,7 @@ const CreateExam = ({ data, title, id }) => {
         question
       )
     ) {
-      alert("Question are same ");
+      alert("Question Are Repeated");
       return;
     }
 
@@ -292,7 +293,7 @@ const CreateExam = ({ data, title, id }) => {
           <h3>Question {currentQuestionIndex + 1}</h3>
           <div>
             <form id="form">
-              {CreateExamField?.map((v, i) => {
+              {(role === "student" ? giveExamFields : CreateExamField)?.map((v, i) => {
                 {
                   switch (v.type) {
                     case "text":
@@ -330,6 +331,7 @@ const CreateExam = ({ data, title, id }) => {
                                           examForm.answer) ||
                                       ""
                                     }
+                                    disabled={examForm[value.name] === ""}
                                     onChange={handleChange}
                                   />
                                   <input

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import showStudentDatass from "../../redux/action/ShowStudentDataAction";
 import Table from "../../reusable/Table";
 import Loader from '../../reusable/Loader';
+import TableReusable from '../../reusable/TableReusable';
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
@@ -15,20 +16,35 @@ const TeacherDashboard = () => {
   const { allStudent, loading, message } = useSelector(
     (state) => state.showStudentData
   );
-  console.log(loading);
+
+
+ 
+  const column = [
+    { heading: "No." },
+    { heading: "Name", value: "name" },
+    { heading: "Email", value: "email" },
+    { heading: "Status", value: "status" },
+    { heading: "Id", value: "_id" },
+    { heading: "View Detail", path: `/viewStudentDetail` },
+  ];
+
+
   return (
-    <div className="container mt-3" style={{ width: "800px" }}>
+    <div className="container mt-3" >
       <h1>Student Data</h1>
       {loading ? (
         <Loader />
       ) : (
         <>
-          <div className="">
+          {/* <div className="">
             <Table
               th={["No.", "Name", "Email", "Status", "Show"]}
               tableData={allStudent}
               show={true}
             />
+          </div> */}
+          <div>
+            <TableReusable header={column} data={allStudent}/>
           </div>
         </>
       )}

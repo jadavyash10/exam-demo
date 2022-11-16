@@ -8,7 +8,6 @@ const DropDown = (props) => {
         <label>{label}</label>
         <select value={value} name={name} onChange={onChange} {...props}>
           {value ?<option value={value}>{value}</option>:<option value="">select Subject Name</option>}
-          {/* <option value="">select Subject Name</option> */}
           { optionField?.map((value, index) => {
             return (
               <option value={value} key={index}>
