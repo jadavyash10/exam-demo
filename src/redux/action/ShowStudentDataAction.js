@@ -36,7 +36,6 @@ const showStudentDatass = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.statusCode === 200) {
           dispatch(showStudentDataSuceess(res.data.data));
         } else {

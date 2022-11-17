@@ -49,7 +49,6 @@ export const signUpSubmit = (navigate) => {
     await axiosApi
       .post("users/SignUp", userData)
       .then((res) => {
-        console.log("first", res.data);
         if (res.data.statusCode === 200) {
           dispatch(signUpSuccess(res.data.message));
           navigate("/login");

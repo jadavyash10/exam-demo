@@ -12,12 +12,13 @@ import { newPasswordField } from "../../utils/newPasswordFields";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Form from "../../reusable/Form";
 import { errorValidate } from "../../utils/Function";
+import ReusableForm from '../../reusable/ReusableForm';
 
 const NewPassword = () => {
   useEffect(() => {
     dispatch(newpasswordClear());
   }, []);
- 
+
   const { users, message, errors } = useSelector((state) => state.newPassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,11 +49,22 @@ const NewPassword = () => {
     }
     dispatch(newpasswordSubmit(token, navigate));
   };
+
+  const buttonArr = [{ onClick: handleSubmit }];
+
   return (
     <div className="container">
       <h1>New Password</h1>
-
-      <div className="row">
+      <div>
+        <ReusableForm
+          field={newPasswordField}
+          Data={users}
+          error={errors}
+          onChange={handleChange}
+          buttonArr={buttonArr}
+        />
+      </div>
+      {/* <div className="row">
         <form>
           <Form
             field={newPasswordField}
@@ -64,7 +76,7 @@ const NewPassword = () => {
             <Button clickHandler={handleSubmit}>Submit</Button>
           </div>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 };

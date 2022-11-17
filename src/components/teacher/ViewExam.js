@@ -26,7 +26,7 @@ const ViewExam = () => {
     { heading: "__V", value: "__v" },
     { heading: "Notes", value: "notes" },
     { heading: "Edit", path: `/EditExam` },
-    { heading: "Delete", onClick: handleDelete },
+    { heading: "Delete", onClick: handleDelete ,className: " btn-danger"},
   ];
 
   return (

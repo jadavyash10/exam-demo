@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Form from "../../reusable/Form";
 import { errorValidate } from "../../utils/Function";
+import ReusableForm from "../../reusable/ReusableForm";
 
 const Login = () => {
   const { users, message, errors } = useSelector((state) => state.login);
@@ -38,26 +39,38 @@ const Login = () => {
     dispatch(loginSubmit(navigate));
   };
 
+  const buttonArr = [{ onClick: handleSubmit }];
+
   return (
     <div className="container">
       <h1>Login</h1>
-      <form>
-        <Form
+      <div>
+        <ReusableForm
           field={loginField}
           Data={users}
           error={errors}
-          handleChange={handleChange}
+          onChange={handleChange}
+          buttonArr={buttonArr}
         />
-        <div className="row">
-          <Button clickHandler={handleSubmit}>Login</Button>
-          <Link to="/forgotpassword">Forgotpassword?</Link>
+      </div>
+
+      {/* <Form
+        field={loginField}
+        Data={users}
+        error={errors}
+        handleChange={handleChange}
+      />
+      <div className="row">
+        <Button clickHandler={handleSubmit}>Login</Button>
+      </div> */}
+      <div>
+        <Link to="/forgotpassword">Forgotpassword?</Link>
+      </div>
+      <div className="row">
+        <div className="col-4">
+          Not Have a Account? <Link to="/signup">signup</Link>
         </div>
-        <div className="row">
-          <div className="col-4">
-            Not Have a Account? <Link to="/signup">signup</Link>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

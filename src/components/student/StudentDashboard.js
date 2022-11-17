@@ -34,7 +34,7 @@ const StudentDashboard = () => {
     { heading: "Result", value: "Result" },
     { heading: "Notes", value: "notes" },
     { heading: "Detail", onClick: handleModalClick },
-    { heading: "Give Exam", path: `/GetExamPaper` ,className: "btn btn-primary"},
+    { heading: "Give Exam", path: `/GetExamPaper` },
   ];
 
   return (

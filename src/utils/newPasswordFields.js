@@ -13,4 +13,8 @@ export const newPasswordField = [
         type: "password",
         placeholder: "Enter ConfirmPassword",
       },
+      {
+        name:"Submit",
+        type:"button"
+      }
 ];

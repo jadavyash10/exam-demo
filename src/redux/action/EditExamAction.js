@@ -19,7 +19,6 @@ export const EditExamError = (state) => {
 };
 
 export const editExamPut = (id, editData, navigate) => {
-  console.log(editData);
   const token = localStorage.getItem("userToken");
   return async (dispatch) => {
     await axiosApi
@@ -33,7 +32,8 @@ export const editExamPut = (id, editData, navigate) => {
           ? (dispatch(EditExamSuccess(res.data.message)),
             toastSuccess(res.data.message),
             navigate("/viewExam"))
-          : (dispatch(EditExamError(res.data.message)), toastError(res.data.message))
+          : (dispatch(EditExamError(res.data.message)),
+            toastError(res.data.message))
       )
       .catch((err) => console.log(err));
   };

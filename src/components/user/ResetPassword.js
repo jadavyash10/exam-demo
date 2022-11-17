@@ -11,6 +11,7 @@ import Validation from "../Validation";
 import Button from "../../reusable/Button";
 import { resetPassField } from "../../utils/resetPassField";
 import Form from "../../reusable/Form";
+import ReusableForm from "../../reusable/ReusableForm";
 
 const ResetPassword = () => {
   useEffect(() => {
@@ -21,13 +22,12 @@ const ResetPassword = () => {
     (state) => state.resetPassword
   );
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newError = Validation(name, value,users);
+    const newError = Validation(name, value, users);
     dispatch(resetpasswordError({ [name]: newError }));
     dispatch(resetpasswordOnChange({ [name]: value }));
   };
@@ -37,7 +37,7 @@ const ResetPassword = () => {
 
     const error = {};
     Object.entries(users).forEach(([name, value], i) => {
-      const newerror = Validation(name, value,users);
+      const newerror = Validation(name, value, users);
       if (newerror) {
         error[name] = newerror;
       }
@@ -49,11 +49,21 @@ const ResetPassword = () => {
     dispatch(resetpasswordSubmit(navigate));
   };
 
+  const buttonArr = [{ onClick: handleSubmit }];
+
   return (
     <div className="container">
       <h1>Reset Password</h1>
-
-      <div className="row">
+      <div>
+        <ReusableForm
+          field={resetPassField}
+          Data={users}
+          error={errors}
+          onChange={handleChange}
+          buttonArr={buttonArr}
+        />
+      </div>
+      {/* <div className="row">
         <Form
           field={resetPassField}
           Data={users}
@@ -63,7 +73,7 @@ const ResetPassword = () => {
       </div>
       <div>
         <Button clickHandler={handleSubmit}>Submit</Button>
-      </div>
+      </div> */}
     </div>
   );
 };

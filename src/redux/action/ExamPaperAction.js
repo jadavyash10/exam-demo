@@ -72,7 +72,6 @@ const getExamPaper = (id) => {
         const queArr = res?.data?.data?.map((v, i) => {
           return { question: v.question, answer: "" };
         });
-        console.log(res);
         if (res.data.statusCode === 200) {
           dispatch(getExamPaperSuccess(res.data.data));
           dispatch(giveExamSetQuestions(queArr));
@@ -86,7 +85,7 @@ const getExamPaper = (id) => {
   };
 };
 
-export const giveExam = (id,data, navigate) => {
+export const giveExam = (id, data, navigate) => {
   const token = localStorage.getItem("userToken");
   return (dispatch) => {
     axiosApi

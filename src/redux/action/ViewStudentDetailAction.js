@@ -9,7 +9,6 @@ import { token } from "../../utils/Constant";
 export const viewStudentDetailReq = (state) => {
   return {
     type: VIEW_STUDENT_DETAIL_REQ,
-   
   };
 };
 export const viewStudentDetailSuceess = (state) => {
@@ -30,7 +29,7 @@ const viewStudentDetail = (_id) => {
   const token = localStorage.getItem("userToken");
 
   return async (dispatch) => {
-    dispatch(viewStudentDetailReq())
+    dispatch(viewStudentDetailReq());
     await axiosApi
       .get(`dashboard/Teachers/viewStudentDetail?id=${_id}`, {
         headers: {
@@ -38,7 +37,6 @@ const viewStudentDetail = (_id) => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.statusCode === 200) {
           dispatch(viewStudentDetailSuceess(res.data.data));
         } else {

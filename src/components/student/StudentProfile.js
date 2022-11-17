@@ -22,12 +22,12 @@ const StudentProfile = () => {
     { heading: "Edit", path: `/EditStuProfile` },
   ];
   return (
-    <div>
+    <div className="container">
       <h1>Student Profile</h1>
       {loading ? (
         <Loader />
       ) : (
-        <div className="container">
+        <div >
           <TableReusable header={column} data={stuData} />
 
           {/* <div className="row">
@@ -43,7 +43,6 @@ const StudentProfile = () => {
                 </thead>
                 <tbody>
                   {stuData?.map((value, i) => {
-                    console.log("value", value);
                     return (
                       <tr key={i}>
                         <th>{i + 1}</th>
