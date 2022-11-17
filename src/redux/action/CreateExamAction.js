@@ -38,7 +38,6 @@ export const createExamSubmit = (initialState, navigate) => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.statusCode === 200) {
           toastSuccess(res.data.message);
           navigate("/viewExam");

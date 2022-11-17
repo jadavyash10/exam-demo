@@ -6,6 +6,10 @@
     type: "email",
     placeholder: "Enter email address",
   },
+  {
+    name:"Submit",
+    type:"button",
+  }
 ];
 
 export default forgotPassField;

@@ -13,6 +13,7 @@ import Form from "../../reusable/Form";
 import { errorValidate } from "../../utils/Function";
 import { sigupField } from "../../utils/signupFields";
 import Validation from "../Validation";
+import ReusableForm from "../../reusable/ReusableForm";
 
 const Signup = () => {
   const { users, message, errors } = useSelector((state) => state.signUp);
@@ -39,10 +40,20 @@ const Signup = () => {
     dispatch(signUpSubmit(navigate));
   };
 
+  const buttonArr = [{ onClick: handleSubmit }];
   return (
     <div className="container">
       <h1>Sign up</h1>
       <div>
+        <ReusableForm
+          field={sigupField}
+          Data={users}
+          error={errors}
+          onChange={handleChange}
+          buttonArr={buttonArr}
+        />
+      </div>
+      {/* <div>
         <form className="form-horizontal">
           <div className="container">
             <Form
@@ -57,7 +68,7 @@ const Signup = () => {
             </div>
           </div>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 };

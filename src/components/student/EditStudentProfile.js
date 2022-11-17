@@ -16,7 +16,6 @@ const EditStudentProfile = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("name", name);
   return (
     <div>
       <div className="container">

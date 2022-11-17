@@ -13,4 +13,8 @@ export const loginField = [
     type: "password",
     placeholder: "Enter password",
   },
+  {
+    name: "Login",
+    type: "button",
+  },
 ];

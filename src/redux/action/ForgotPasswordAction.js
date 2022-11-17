@@ -52,7 +52,6 @@ const forgotPasswordSubmit = () => {
     await axiosApi
       .post("users/ForgotPassword", userData)
       .then((res) => {
-        console.log("forgot", res);
         if (res.data.statusCode === 200) {
           toastSuccess(res.data.message);
           dispatch(forgotPassSuccess(res.data.message));

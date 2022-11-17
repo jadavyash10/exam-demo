@@ -40,14 +40,13 @@ export const newpasswordClear = () => {
   };
 };
 
-export const newpasswordSubmit = (token,navigate) => {
+export const newpasswordSubmit = (token, navigate) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.newPassword.users;
     await axiosApi
-      .post(`users/ForgotPassword/Verify?token=${token}`, userData,)
+      .post(`users/ForgotPassword/Verify?token=${token}`, userData)
       .then((res) => {
-        console.log("new", res);
         if (res.data.statusCode === 200) {
           toastSuccess(res.data.message);
           dispatch(newpasswordSuccess(res.data.message));

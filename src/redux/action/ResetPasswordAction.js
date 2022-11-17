@@ -7,8 +7,7 @@ import {
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
 import { toastError, toastSuccess } from "./toastAction";
-import { token } from '../../utils/Constant';
-
+import { token } from "../../utils/Constant";
 
 export const resetpasswordSuccess = (message) => {
   return {
@@ -43,30 +42,29 @@ export const resetpasswordClear = () => {
 };
 
 export const resetpasswordSubmit = (navigate) => {
-  console.log(token);
+  const token = localStorage.getItem("userToken");
   return async (dispatch, getState) => {
     const state = getState();
     const userData = state.resetPassword.users;
     await axiosApi
       .post("users/ResetPassword", userData, {
-        headers:{
-          'access-token' : token,
-        }
+        headers: {
+          "access-token": token,
+        },
       })
       .then((res) => {
-        console.log("reset", res);
         if (res.data.statusCode === 200) {
           toastSuccess(res.data.message);
           dispatch(resetpasswordSuccess(res.data.message));
           dispatch(resetpasswordClear());
           localStorage.clear();
-          navigate('/login');
+          navigate("/login");
         } else {
           toastError(res.data.message);
         }
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
         // toastError(error.message);
       });
   };

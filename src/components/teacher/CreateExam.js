@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import CreateExamField from "../../utils/CreateExamField";
 import Button from "../../reusable/Button";
 import DropDown from "../../reusable/DropDown";
 import Validation from "../Validation";
 import Input from "../../reusable/Input";
 import { errorValidate, reset } from "../../utils/Function";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { createExamSubmit } from "../../redux/action/CreateExamAction";
 import { editExamPut } from "../../redux/action/EditExamAction";
 import { giveExam } from "../../redux/action/ExamPaperAction";
-import giveExamFields from '../../utils/GiveExamFields';
+import giveExamFields from "../../utils/GiveExamFields";
+import ReusableForm from "../../reusable/ReusableForm";
 
 const CreateExam = ({ data, title, id }) => {
   const initialState = {
@@ -123,7 +124,9 @@ const CreateExam = ({ data, title, id }) => {
   };
 
   const handleDuplicateQuestion = (arr, question) => {
-    const i = arr.findIndex((value, i) => value.question === question);
+    const i = arr.findIndex(
+      (value, i) => value.question.trim() === question.trim()
+    );
     if (i != -1) {
       if (i == currentQuestionIndex) {
         return;
@@ -186,7 +189,13 @@ const CreateExam = ({ data, title, id }) => {
       ans2: res?.options[1],
       ans3: res?.options[2],
       ans4: res?.options[3],
-      note: role !== "student" ? data === undefined ? notes[id] : examData?.notes[id] :"",
+      note:
+        role !== "student"
+          ? data === undefined
+            ? notes[id]
+            : examData?.notes[id]
+          : "",
+      error: {},
     };
     setExamForm({ ...examForm, ...obj });
   };
@@ -277,99 +286,24 @@ const CreateExam = ({ data, title, id }) => {
       : dispatch(giveExam(id, giveExamData, navigate));
   };
 
-  console.log("create exam", examForm);
-  console.log("examData", examData);
-
   return (
     <div className="container">
       <h1>{title ? title : "Create Exam"}</h1>
       {currentQuestionIndex > 14 ? (
         <h1>
-          Click on Submit Button For {title ? title : "Create Exam"} for{" "}
+          Click on Submit Button For {title ? title : "Create Exam"} for
           {subjectName}
         </h1>
       ) : (
         <div className="m-2">
           <h3>Question {currentQuestionIndex + 1}</h3>
           <div>
-            <form id="form">
-              {(role === "student" ? giveExamFields : CreateExamField)?.map((v, i) => {
-                {
-                  switch (v.type) {
-                    case "text":
-                      return (
-                        <div>
-                          <Input
-                            label={v.label}
-                            type={v.type}
-                            id={v.id}
-                            name={v.name}
-                            value={examForm[v.name] || ""}
-                            disabled={role === "student"}
-                            {...v}
-                            onChange={handleChange}
-                            error={error}
-                          />
-                        </div>
-                      );
-
-                    case "radio":
-                      return (
-                        <div>
-                          {v?.value?.map((value, index) => {
-                            if (v.type === "radio") {
-                              return (
-                                <div>
-                                  <input
-                                    type="radio"
-                                    id={value.id}
-                                    name={v.name}
-                                    value={examForm[value.name]}
-                                    checked={
-                                      (examForm[value.name] &&
-                                        examForm[value.name] ===
-                                          examForm.answer) ||
-                                      ""
-                                    }
-                                    disabled={examForm[value.name] === ""}
-                                    onChange={handleChange}
-                                  />
-                                  <input
-                                    type="text"
-                                    id={value.id}
-                                    className="demo"
-                                    name={value.name}
-                                    disabled={role === "student"}
-                                    value={examForm[value.name] || ""}
-                                    onChange={handleChange}
-                                  />
-                                  {error && error[value.name] && (
-                                    <span style={{ color: "red" }}>
-                                      {error[value.name]}
-                                    </span>
-                                  )}
-                                </div>
-                              );
-                            }
-                          })}
-                        </div>
-                      );
-                    case "select":
-                      return (
-                        <DropDown
-                          value={examForm?.subjectName}
-                          name="subjectName"
-                          optionField={v.subjectNameField}
-                          label={v.label}
-                          onChange={handleChange}
-                          error={error}
-                          disabled={role === "student"}
-                        />
-                      );
-                  }
-                }
-              })}
-            </form>
+            <ReusableForm
+              field={role === "student" ? giveExamFields : CreateExamField}
+              Data={examForm}
+              error={error}
+              onChange={handleChange}
+            />
           </div>
         </div>
       )}
@@ -395,11 +329,11 @@ const CreateExam = ({ data, title, id }) => {
               <Button
                 clickHandler={
                   currentQuestionIndex != 15
-                  ? handlePreValueUpdate
-                  : handleSubmit
+                    ? handlePreValueUpdate
+                    : handleSubmit
                 }
                 disabled={questions.length > 15}
-                >
+              >
                 {currentQuestionIndex < 15 ? "Next" : "Submit"}
               </Button>
             </>

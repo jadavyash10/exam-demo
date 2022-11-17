@@ -49,7 +49,6 @@ export const loginSubmit = (navigate) => {
     await axiosApi
       .post("users/Login", userData)
       .then((res) => {
-        console.log(res.data);
         if (res.data.statusCode === 200) {
           localStorage.setItem("user", res.data.data.users);
           localStorage.setItem("userToken", res.data.data.token);

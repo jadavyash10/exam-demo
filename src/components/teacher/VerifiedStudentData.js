@@ -6,7 +6,7 @@ import Button from "../../reusable/Button";
 import { Link } from "react-router-dom";
 import Table from "../../reusable/Table";
 import Loader from "../../reusable/Loader";
-import TableReusable from '../../reusable/TableReusable';
+import TableReusable from "../../reusable/TableReusable";
 
 const VerifiedStudentData = () => {
   const dispatch = useDispatch();
@@ -28,12 +28,15 @@ const VerifiedStudentData = () => {
     { heading: "View Detail", path: `/viewStudentDetail` },
   ];
   return (
-    <div className="container mt-3" >
+    <div className="container mt-3">
       <h1> Verified Student Data</h1>
       {loading ? (
         <Loader />
       ) : (
         <>
+          <div>
+            <TableReusable header={column} data={allStudent} />
+          </div>
           {/* <div className="">
             <Table
               th={["No.", "Name", "Email", "Status", "Show"]}
@@ -41,9 +44,6 @@ const VerifiedStudentData = () => {
               show={true}
             />
           </div> */}
-          <div>
-            <TableReusable header={column} data={allStudent}/>
-          </div>
         </>
       )}
     </div>

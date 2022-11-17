@@ -58,22 +58,20 @@ export const deleteExam = (id) => {
   };
 };
 
-
 const viewExam = () => {
- let token= localStorage.getItem("userToken")
+  let token = localStorage.getItem("userToken");
   return async (dispatch) => {
-    dispatch(viewExamReq())
+    dispatch(viewExamReq());
     await axiosApi
-    .get(`dashboard/Teachers/viewExam`, {
-      headers: {
-        "access-token": token,
-      },
-    })
-    .then((res) => {
-      if (res.data.statusCode === 200) {
-        dispatch(viewExamSuccess(res.data.data));
-      } else {
-          console.log(res.data.message)
+      .get(`dashboard/Teachers/viewExam`, {
+        headers: {
+          "access-token": token,
+        },
+      })
+      .then((res) => {
+        if (res.data.statusCode === 200) {
+          dispatch(viewExamSuccess(res.data.data));
+        } else {
           dispatch(viewExamError(res.data.message));
         }
       })

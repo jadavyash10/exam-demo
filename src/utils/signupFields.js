@@ -34,18 +34,8 @@ export const sigupField = [
     ],
     id: "role",
   },
-  // {
-  //   label: "Teacher",
-  //   name: "role",
-  //   id: "teacher",
-  //   type: "radio",
-  //   errorShow: false,
-  // },
-  // {
-  //   label: "Student",
-  //   name: "role",
-  //   id: "Student",
-  //   type: "radio",
-  //   errorShow: true,
-  // },
+{
+  name:"Submit",
+  type: "button",
+}
 ];

@@ -38,6 +38,7 @@ const TableReusable = ({ header, data }) => {
                             state={{
                               subjectName: data[subjectIndex]?.subjectName,
                             }}
+                            className="btn btn-primary"
                           >
                             {v.heading}
                           </Link>

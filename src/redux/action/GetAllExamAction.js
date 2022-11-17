@@ -32,7 +32,6 @@ const getAllExams = () => {
         },
       })
       .then((res) => {
-        console.log(res)
         if (res.data.statusCode === 200) {
           dispatch(getAllExamSuccess(res.data.data));
         } else {

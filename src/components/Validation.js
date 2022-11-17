@@ -1,7 +1,6 @@
 import { pass, re } from "../utils/regex";
 
 const Validation = (name, value, userData) => {
-  console.log(userData)
   switch (name) {
     case "name":
       return !value ? "Please enter a username" : "";

@@ -10,12 +10,12 @@ import Button from "../../reusable/Button";
 import { useNavigate } from "react-router-dom";
 import Form from "../../reusable/Form";
 import forgotPassField from "../../utils/forgotPassworField";
+import ReusableForm from "../../reusable/ReusableForm";
 
 const Forgotpassword = () => {
-  
-  useEffect(()=>{
-    dispatch(forgotPassClear())
-  },[])
+  useEffect(() => {
+    dispatch(forgotPassClear());
+  }, []);
 
   const { users, message, errors } = useSelector(
     (state) => state.forgotPassword
@@ -44,23 +44,36 @@ const Forgotpassword = () => {
       return;
     }
     dispatch(forgotPasswordSubmit(navigate));
+    navigate("/login");
   };
+
+  const buttonArr = [{ onClick: handleSubmit }];
 
   return (
     <div className="container">
       <h1>Forgot Password</h1>
-      <div className="row">
-        <Form
+      <div>
+        <ReusableForm
           field={forgotPassField}
           Data={users}
           error={errors}
-          handleChange={handleChange}
+          onChange={handleChange}
+          buttonArr={buttonArr}
         />
       </div>
-      <div className="row">
-        <Button clickHandler={handleSubmit}>Submit</Button>
-        <Button clickHandler={() => navigate("/login")}>Login</Button>
-      </div>
+
+      {/* <div className="row">
+      //   <Form
+      //     field={forgotPassField}
+      //     Data={users}
+      //     error={errors}
+      //     handleChange={handleChange}
+      //   />
+      // </div>
+      // <div className="row">
+      //   <Button clickHandler={handleSubmit}>Submit</Button>
+      //   <Button clickHandler={() => navigate("/login")}>Login</Button>
+      // </div> */}
     </div>
   );
 };
