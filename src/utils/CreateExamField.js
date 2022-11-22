@@ -2,6 +2,7 @@ const CreateExamField = [
   {
     type: "select",
     label: "Subject Name:",
+    id: "subjectName",
     subjectNameField: [
       "C",
       "C++",
@@ -34,7 +35,7 @@ const CreateExamField = [
     type: "radio",
     label: "Answer",
     name: "answer",
-    id: "answer",
+    id: "ansSelect",
     value: [
       {
         type: "text",

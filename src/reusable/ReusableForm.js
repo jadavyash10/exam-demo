@@ -30,11 +30,11 @@ const ReusableForm = (props) => {
               );
             case "radio":
               return (
-                <div>
+                <div key={value.id}>
                   {value?.value?.map((v, i) => {
                     if (value.type === "radio" && v.type === "text") {
                       return (
-                        <div key={i}>
+                        <div key={v.id}>
                           <input
                             type="radio"
                             id={v.id}
@@ -66,7 +66,7 @@ const ReusableForm = (props) => {
                       );
                     } else {
                       return (
-                        <div key={i} className="col-1">
+                        <div key={v.id} className="col-1">
                           <input
                             type={value.type}
                             name={value.name}
@@ -81,7 +81,7 @@ const ReusableForm = (props) => {
                       );
                     }
                   })}
-                     <div>
+                  <div key="error">
                     {error && value.name != "answer" && (
                       <span style={{ color: "red" }}>{error[value.name]}</span>
                     )}
@@ -90,20 +90,22 @@ const ReusableForm = (props) => {
               );
             case "select":
               return (
-                <DropDown
-                  value={Data?.subjectName}
-                  name="subjectName"
-                  optionField={value.subjectNameField}
-                  label={value.label}
-                  onChange={onChange}
-                  error={error}
-                  disabled={value.disabled}
-                />
+                <div key={value.id}>
+                  <DropDown
+                    value={Data?.subjectName}
+                    name="subjectName"
+                    optionfield={value.subjectNameField}
+                    label={value.label}
+                    onChange={onChange}
+                    error={error}
+                    disabled={value.disabled}
+                  />
+                </div>
               );
             case "button":
               return buttonArr?.map((v, i) => {
                 return (
-                  <div key={i}>
+                  <div key="button">
                     <Button clickHandler={v?.onClick}>{value?.name}</Button>
                   </div>
                 );
@@ -116,78 +118,3 @@ const ReusableForm = (props) => {
 };
 
 export default ReusableForm;
-
-
-
-// import React from "react";
-// import Input from "./Input";
-// import Button from "./Button";
-
-// const ReusableForm = (props) => {
-//   const { field, Data, error, onChange, buttonArr } = props;
-//   return (
-//     <>
-//       <form>
-//         {field?.map((value, index) => {
-//           switch (value.type) {
-//             case "text":
-//             case "password":
-//             case "email":
-//               return (
-//                 <div key={value.id}>
-//                   <Input
-//                     id={value.id}
-//                     label={value.label}
-//                     name={value.name}
-//                     value={Data[value.name]}
-//                     type={value.type}
-//                     placeholder={value.placeholder}
-//                     onChange={onChange}
-//                     error={error || ""}
-//                   />
-//                 </div>
-//               );
-//             case "radio":
-//               return (
-//                 <div key={value.id}>
-//                   {value?.value?.map((v, i) => {
-//                     return (
-//                       <div key={i} className="col-1">
-//                         <input
-//                           type={value.type}
-//                           name={value.name}
-//                           className="form-check-input m-1"
-//                           value={v.name}
-//                           checked={v.name === Data[value.name]}
-//                           onChange={onChange}
-//                           error={error || ""}
-//                         />
-//                         <label>{v.name}</label>
-//                       </div>
-//                     );
-//                   })}
-//                   <div>
-//                     {error && (
-//                       <span style={{ color: "red" }}>{error[value.name]}</span>
-//                     )}
-//                   </div>
-//                 </div>
-//               );
-//             case "button":
-//               return buttonArr?.map((v, i) => {
-//                 return (
-//                   <div key={i}>
-//                     <Button clickHandler={v?.onClick}>{value?.name}</Button>
-//                   </div>
-//                 );
-//               });
-//           }
-//         })}
-//       </form>
-//     </>
-//   );
-// };
-
-// export default ReusableForm;
-
-

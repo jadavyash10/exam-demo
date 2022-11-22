@@ -68,6 +68,7 @@ export const stuDataEdit = (data, navigate) => {
       .then((response) => {
         if (response.data.statusCode === 200) {
           dispatch(StudentProfileEditSuccess(response.data.message));
+          toastSuccess(response.data.message)
           navigate("/studentProfile");
         } else {
           toastError(response.data.message);

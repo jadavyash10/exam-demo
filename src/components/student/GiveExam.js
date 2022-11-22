@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import getExamPaper, {
@@ -9,7 +10,7 @@ import Loader from "../../reusable/Loader";
 import CreateExam from "../teacher/CreateExam";
 
 const GiveExam = () => {
-  const { examPaper, giveExamQuestions, loading } = useSelector(
+  const { examPaper, giveExamQuestions, loading, error } = useSelector(
     ({ getExamPaper }) => getExamPaper
   );
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const GiveExam = () => {
     dispatch(getExamPaper(id));
   }, [dispatch]);
 
-  let new_array = examPaper?.map(function (ele) {
+  let new_array = examPaper.map(function (ele) {
     return { ...ele, answer: "" };
   });
 
@@ -35,6 +36,8 @@ const GiveExam = () => {
     <div>
       {loading ? (
         <Loader />
+      ) : error ? (
+        <h2>{error}</h2>
       ) : (
         <CreateExam data={giveExamData} title="Give Exam" id={id} />
       )}

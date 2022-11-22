@@ -12,10 +12,12 @@ import ViewStudentDetail from "../components/teacher/ViewStudentDetail";
 import CreateExam from "../components/teacher/CreateExam";
 import StudentDashboard from "../components/student/StudentDashboard";
 import ViewExam from "../components/teacher/ViewExam";
-import EditExam from '../components/teacher/EditExam';
-import StudentProfile from '../components/student/StudentProfile';
-import EditStudentProfile from '../components/student/EditStudentProfile';
-import GiveExam from '../components/student/GiveExam';
+import EditExam from "../components/teacher/EditExam";
+import StudentProfile from "../components/student/StudentProfile";
+import EditStudentProfile from "../components/student/EditStudentProfile";
+import GiveExam from "../components/student/GiveExam";
+import DemoForm from "../utils/DemoForm";
+import NotFound from "../components/NotFound";
 
 export const RoutesArr = [
   {
@@ -114,7 +116,16 @@ export const RoutesArr = [
     id: "GetExamPaper",
     privateElement: true,
   },
-
+  {
+    path: "/demoForm",
+    element: <DemoForm />,
+    id: "demoForm",
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+    id: "demoForm",
+  },
 ];
 
 const routing = (arr) => {

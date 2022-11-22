@@ -66,7 +66,8 @@ export const loginSubmit = (navigate) => {
         }
       })
       .catch((error) => {
-        dispatch(toastError(error.message));
+        console.log('error', error)
+        // dispatch(toastError(error.message));
       });
   };
 };
