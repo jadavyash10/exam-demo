@@ -23,19 +23,21 @@ export const sigupField = [
   {
     label: "Role",
     name: "role",
+    id: "role",
     type: "radio",
     value: [
       {
         name: "teacher",
+        id: "teacher",
       },
       {
         name: "student",
+        id: "student",
       },
     ],
-    id: "role",
   },
-{
-  name:"Submit",
-  type: "button",
-}
+  {
+    name: "Submit",
+    type: "button",
+  },
 ];

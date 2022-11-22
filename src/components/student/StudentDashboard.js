@@ -19,7 +19,7 @@ const StudentDashboard = () => {
 
   useEffect(() => {
     dispatch(getAllExams());
-  }, [dispatch]);
+  }, []);
 
   const handleModalClick = (id) => {
     setModalShow(true);

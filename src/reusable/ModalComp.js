@@ -21,7 +21,7 @@ const ModalComp = (props) => {
         <hr style={{ width: "40%" }} />
         <h6>Notes :</h6>
         {props.data.notes?.map((v, i) => (
-          <p>{v}</p>
+          <p key={i}>{v}</p>
         ))}
         <hr style={{ width: "40%" }} />
         <h6>Result :</h6>

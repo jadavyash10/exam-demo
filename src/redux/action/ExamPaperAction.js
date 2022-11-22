@@ -1,4 +1,5 @@
 import {
+  GET_EXAM_PAPER_CLEAR,
   GET_EXAM_PAPER_ERROR,
   GET_EXAM_PAPER_REQ,
   GET_EXAM_PAPER_SUCCESS,
@@ -56,12 +57,17 @@ export const giveExamError = (state) => {
     payload: state,
   };
 };
+export const giveExamClear = (state) => {
+  return {
+    type: GET_EXAM_PAPER_CLEAR,
+    payload: state,
+  };
+};
 
 const getExamPaper = (id) => {
   const token = localStorage.getItem("userToken");
   return (dispatch) => {
     dispatch(getExamPaperReq());
-
     axiosApi
       .get(`/student/examPaper?id=${id}`, {
         headers: {
@@ -75,8 +81,11 @@ const getExamPaper = (id) => {
         if (res.data.statusCode === 200) {
           dispatch(getExamPaperSuccess(res.data.data));
           dispatch(giveExamSetQuestions(queArr));
+        } else if (res.data.statusCode === 500) {
+          dispatch(giveExamClear(res.data.message));
         } else {
           dispatch(getExamPaperError(res.data.message));
+          toastError(res.data.message);
         }
       })
       .catch((err) => {

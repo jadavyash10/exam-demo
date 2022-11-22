@@ -1,4 +1,5 @@
 import {
+  GET_EXAM_PAPER_CLEAR,
   GET_EXAM_PAPER_ERROR,
   GET_EXAM_PAPER_REQ,
   GET_EXAM_PAPER_SUCCESS,
@@ -13,6 +14,7 @@ const initialState = {
   loading: false,
   giveExamQuestions: [],
   message: "",
+  error:"",
 };
 
 const getExamPaperReducer = (state = initialState, action) => {
@@ -27,6 +29,7 @@ const getExamPaperReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error:"",
         examPaper: [...action.payload],
       };
 
@@ -60,6 +63,13 @@ const getExamPaperReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
+      };
+    case GET_EXAM_PAPER_CLEAR:
+      return {
+        ...state,
+        loading: false,
+        examPaper: [],
+        error: action.payload,
       };
 
     default:

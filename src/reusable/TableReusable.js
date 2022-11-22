@@ -11,7 +11,7 @@ const TableReusable = ({ header, data }) => {
           <tr>
             {header.map((v, i) => {
               return (
-                <th scope="col" key={i}>
+                <th scope="col" key={v.heading}>
                   {v.heading}
                 </th>
               );
@@ -55,16 +55,16 @@ const TableReusable = ({ header, data }) => {
                   } else {
                     if (v?.heading === "Notes") {
                       return (
-                        <td>
+                        <td key={i}>
                           {value.notes.map((item, ii) => {
-                            return <tr key={ii}>{item}</tr>;
+                            return <p key={ii}>{item}</p>;
                           })}
                         </td>
                       );
                     } else if (v?.heading === "Result") {
-                     return <td>
+                     return <td key={i}>
                         {value?.Result?.map((v, i) => {
-                          return <tr key={i}>{v?.resultStatus}</tr>;
+                          return <p key={i}>{v?.resultStatus}</p>;
                         })}
                       </td>;
                     } else {

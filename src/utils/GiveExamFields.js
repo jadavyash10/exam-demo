@@ -2,6 +2,7 @@ const giveExamFields = [
   {
     type: "select",
     label: "Subject Name:",
+    id: "subjectName",
     disabled: true,
   },
   {
@@ -22,7 +23,7 @@ const giveExamFields = [
     type: "radio",
     label: "Answer",
     name: "answer",
-    id: "answer",
+    id: "ansSelect",
     value: [
       {
         type: "text",
