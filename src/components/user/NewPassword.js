@@ -50,7 +50,7 @@ const NewPassword = () => {
     dispatch(newpasswordSubmit(token, navigate));
   };
 
-  const buttonArr = [{ onClick: handleSubmit }];
+  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
 
   return (
     <div className="container">

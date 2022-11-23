@@ -17,7 +17,6 @@ export const reset = (obj) => {
   return newObj;
 };
 
-
 export const errorValidate = (data) => {
   let error = {};
   Object.entries(data).forEach(([key, value]) => {
@@ -35,20 +34,37 @@ export const errorValidate = (data) => {
   return error;
 };
 
-export const xyz = (data) => {
-  const error = {};
+export const validate = (data, index) => {
+  let error = {};
   Object.entries(data).forEach(([key, value]) => {
-    switch (key) {
-      case "subjectName":
-        return !value
-          ? (error.subjectName = "Please select a subjectName")
-          : "";
-      case "questions":
-        return !value.length === 14
-          ? (error.questions = "please enter 15 questions")
-          : "";
-      case "notes":
-        return !value.length ? (error.notes = "please enter note ") : "";
+    if (key === "subjectName") {
+      error[key] = Validation(key, value);
+    }
+    if (key === "questions") {
+      Object.entries(value[index]).forEach(([key1, value1]) => {
+        if (key1 === "question") {
+          error[key1] = Validation(key1, value1);
+        }
+        if (key1 === "answer") {
+          error[key1] = Validation(key1, value1);
+        }
+        if (key1 === "options") {
+          Object.entries(value[index].options).forEach(([key2, value2]) => {
+            if (key2 === "0") {
+              error.option0 = Validation("option0", value2);
+            }
+            if (key2 === "1") {
+              error.option1 = Validation("option1", value2);
+            }
+            if (key2 === "2") {
+              error.option2 = Validation("option2", value2);
+            }
+            if (key2 === "3") {
+              error.option3 = Validation("option3", value2);
+            }
+          });
+        }
+      });
     }
   });
   return error;

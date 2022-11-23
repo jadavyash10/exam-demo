@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import viewExamDetail from "../../redux/action/ViewExamDetailAction";
 import viewExam from "../../redux/action/ViewExamAction";
 import Loader from "../../reusable/Loader";
+import DemoForm from "../../utils/DemoForm";
 
 const EditExam = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const EditExam = () => {
       return <Loader />;
     } else {
       return <CreateExam data={data} title="Edit Exam" id={id} />;
+      // return <DemoForm data={data} title="Edit Exam" id={id}/>
     }
   }
 };

@@ -35,6 +35,7 @@ export const delet = (state) => {
   };
 };
 export const deleteExam = (id) => {
+  let token = localStorage.getItem("userToken");
   return async (dispatch) => {
     await axiosApi
       .delete(`dashboard/Teachers/deleteExam?id=${id}`, {
