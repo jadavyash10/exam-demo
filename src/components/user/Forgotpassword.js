@@ -47,7 +47,7 @@ const Forgotpassword = () => {
     navigate("/login");
   };
 
-  const buttonArr = [{ onClick: handleSubmit }];
+  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
 
   return (
     <div className="container">

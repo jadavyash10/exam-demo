@@ -39,7 +39,7 @@ const Login = () => {
     dispatch(loginSubmit(navigate));
   };
 
-  const buttonArr = [{ onClick: handleSubmit }];
+  const buttonArr = [{children:"Login", onClick: handleSubmit }];
 
   return (
     <div className="container">

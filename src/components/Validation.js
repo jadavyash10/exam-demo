@@ -64,8 +64,20 @@ const Validation = (name, value, userData) => {
     case "ans4":
       return !value ? "Please Enter a ans4" : "";
 
+    case "option0":
+      return !value ? "Please Enter a option1" : "";
+
+    case "option1":
+      return !value ? "Please Enter a option2" : "";
+
+    case "option2":
+      return !value ? "Please Enter a option3" : "";
+
+    case "option3":
+      return !value ? "Please Enter a option4" : "";
+
     case "notes":
-      return !value ? "Please Enter a ans4" : "";
+      return !value ? "Please Enter a note" : "";
 
     default:
       break;

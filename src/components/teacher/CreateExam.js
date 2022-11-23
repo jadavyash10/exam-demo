@@ -98,7 +98,12 @@ const CreateExam = ({ data, title, id }) => {
     answer: answer,
     options: [ans1, ans2, ans3, ans4],
   };
+  const cloneQuestions = (data === undefined ? examForm : examData)?.questions[
+    currentQuestionIndex
+  ];
 
+  console.log("cloneQuestions", cloneQuestions);
+  console.log("obj", obj);
   const clearData = () => {
     setExamForm({ ...examForm, ...reset(examForm) });
   };
@@ -114,13 +119,24 @@ const CreateExam = ({ data, title, id }) => {
     });
   };
 
-  const handleDuplicateObject = (arr) => {
-    let result = arr.some((element, index) => {
-      return arr.indexOf(element) !== index;
+  const handleDuplicateObject = () => {
+    const cloneArr = obj?.options.filter((el) => el);
+    let duplicateObject;
+    let result = cloneArr.some((element, index) => {
+      return cloneArr.indexOf(element) !== index;
+    });
+    result
+      ? (duplicateObject = "options Are Repeated")
+      : (duplicateObject = "");
+    setExamForm({
+      ...examForm,
+      error: {
+        ...examForm.error,
+        duplicateObject,
+      },
     });
     return result;
   };
-
   const handleDuplicateQuestion = (arr, question) => {
     const i = arr.findIndex(
       (value, i) => value.question.trim() === question.trim()
@@ -138,17 +154,9 @@ const CreateExam = ({ data, title, id }) => {
     let cloneQuestions = [...questions];
     const cloneNotes = [...notes];
     cloneQuestions.push(obj);
-    if ((!note == "" || !note == undefined) && notes.length < 2) {
-      cloneNotes.push(note);
-    }
+
     note ? notes.push(note) : notes.splice(currentQuestionIndex, 1);
     note === undefined && notes.splice(currentQuestionIndex, 1);
-
-    note
-      ? note === undefined
-        ? cloneQuestions.splice(currentQuestionIndex, 1)
-        : cloneNotes.push(note)
-      : cloneQuestions.splice(currentQuestionIndex, 1);
 
     setExamForm({
       ...examForm,
@@ -157,15 +165,13 @@ const CreateExam = ({ data, title, id }) => {
       notes: cloneNotes,
     });
   };
-
   const handleNextButton = () => {
     if (Object.entries(errorValidate(examForm)).length) {
       setExamForm({ ...examForm, error: errorValidate(examForm) });
       return;
     }
 
-    if (handleDuplicateObject(obj.options)) {
-      alert("Options Are Repeated ");
+    if (handleDuplicateObject()) {
       return;
     }
     if (handleDuplicateQuestion(questions, question)) {
@@ -203,10 +209,39 @@ const CreateExam = ({ data, title, id }) => {
     };
     setExamForm({ ...examForm, ...obj });
   };
-
+  const checkPreButtonClickStateChangeIsSame = (index) => {
+    var flage = false;
+    if (cloneQuestions === undefined) {
+      if (question || answer || ans1 || ans2 || ans3 || ans4) {
+        return (flage = true);
+      }
+    } else {
+      if (
+        cloneQuestions.question !== question ||
+        cloneQuestions.answer !== answer ||
+        cloneQuestions.options[0] !== ans1 ||
+        cloneQuestions.options[1] !== ans2 ||
+        cloneQuestions.options[2] !== ans3 ||
+        cloneQuestions.options[3] !== ans4
+      ) {
+        return (flage = true);
+      }
+    }
+    return flage;
+  };
   const handlePreviousButton = () => {
-    handlePreviousValue(currentQuestionIndex - 1);
-    setCurrentQuestionIndex(currentQuestionIndex - 1);
+    if (checkPreButtonClickStateChangeIsSame()) {
+      if (window.confirm("Are you sure you want to go back")) {
+        setCurrentQuestionIndex(currentQuestionIndex - 1);
+        handlePreviousValue(currentQuestionIndex - 1);
+      }
+    } else {
+      handlePreviousValue(currentQuestionIndex - 1);
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+
+    // handlePreviousValue(currentQuestionIndex - 1);
+    // setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
 
   const handleSkipButton = () => {
@@ -229,8 +264,7 @@ const CreateExam = ({ data, title, id }) => {
         return;
       }
     }
-    if (handleDuplicateObject(obj.options)) {
-      alert("Options Are Repeated");
+    if (handleDuplicateObject()) {
       return;
     }
     if (
@@ -301,7 +335,6 @@ const CreateExam = ({ data, title, id }) => {
       }
     );
     const newArr = { subjectName, questions, notes };
-
     data == undefined
       ? dispatch(createExamSubmit(newArr, navigate))
       : role !== "student"
@@ -321,6 +354,8 @@ const CreateExam = ({ data, title, id }) => {
             Data={examForm}
             error={error}
             onChange={handleChange}
+            currentQuestionIndex={currentQuestionIndex}
+            onblur={handleDuplicateObject}
           />
         </div>
       </div>

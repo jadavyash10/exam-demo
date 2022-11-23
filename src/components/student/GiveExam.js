@@ -7,6 +7,7 @@ import getExamPaper, {
   giveExamOnChange,
 } from "../../redux/action/ExamPaperAction";
 import Loader from "../../reusable/Loader";
+import DemoForm from "../../utils/DemoForm";
 import CreateExam from "../teacher/CreateExam";
 
 const GiveExam = () => {
@@ -31,7 +32,6 @@ const GiveExam = () => {
     subjectName: subName !== undefined ? subName : "",
     questions: new_array,
   };
-
   return (
     <div>
       {loading ? (
@@ -40,6 +40,7 @@ const GiveExam = () => {
         <h2>{error}</h2>
       ) : (
         <CreateExam data={giveExamData} title="Give Exam" id={id} />
+        // <DemoForm data={giveExamData} title="Give Exam" id={id}/>
       )}
     </div>
   );

@@ -40,7 +40,7 @@ const Signup = () => {
     dispatch(signUpSubmit(navigate));
   };
 
-  const buttonArr = [{ onClick: handleSubmit }];
+  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
   return (
     <div className="container">
       <h1>Sign up</h1>
