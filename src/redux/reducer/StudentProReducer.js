@@ -1,5 +1,5 @@
 import {
-    GET_STUDENT_PROFILE, GET_STUDENT_PROFILE_FAIL, GET_STUDENT_PROFILE_REQ
+    GET_STUDENT_PROFILE, GET_STUDENT_PROFILE_FAIL, GET_STUDENT_PROFILE_REQ,GET_STUDENT_ONCHANGE
   } from "../constant/Index";
 
 const initialState = {
@@ -21,6 +21,12 @@ const stuDataProReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         data: [action.payload],
+      };
+    case GET_STUDENT_ONCHANGE:
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
       };
     case GET_STUDENT_PROFILE_FAIL:
       return {

@@ -18,7 +18,7 @@ const ResetPassword = () => {
     dispatch(resetpasswordClear());
   }, []);
 
-  const { users, message, errors } = useSelector(
+  const { users, message, errors ,loading} = useSelector(
     (state) => state.resetPassword
   );
 
@@ -49,7 +49,7 @@ const ResetPassword = () => {
     dispatch(resetpasswordSubmit(navigate));
   };
 
-  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
+  const buttonArr = [{children:"Submit", onClick: handleSubmit,disabled:loading?true:false }];
 
   return (
     <div className="container">

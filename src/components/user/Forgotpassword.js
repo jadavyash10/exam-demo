@@ -17,12 +17,12 @@ const Forgotpassword = () => {
     dispatch(forgotPassClear());
   }, []);
 
-  const { users, message, errors } = useSelector(
+  const { users, message, errors,loading } = useSelector(
     (state) => state.forgotPassword
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+console.log('loading', loading)
   const handleChange = (e) => {
     const { name, value } = e.target;
     const newError = Validation(name, value);
@@ -43,11 +43,11 @@ const Forgotpassword = () => {
       dispatch(forgotPassError(error));
       return;
     }
-    dispatch(forgotPasswordSubmit(navigate));
-    navigate("/login");
+    dispatch(forgotPasswordSubmit());
+    // navigate("/login");
   };
 
-  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
+  const buttonArr = [{children:"Submit", onClick: handleSubmit ,disabled:loading?true:false}];
 
   return (
     <div className="container">

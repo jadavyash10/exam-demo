@@ -16,7 +16,9 @@ import { errorValidate } from "../../utils/Function";
 import ReusableForm from "../../reusable/ReusableForm";
 
 const Login = () => {
-  const { users, message, errors } = useSelector((state) => state.login);
+  const { users, message, errors, loading } = useSelector(
+    (state) => state.login
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,8 +40,9 @@ const Login = () => {
     }
     dispatch(loginSubmit(navigate));
   };
-
-  const buttonArr = [{children:"Login", onClick: handleSubmit }];
+  const buttonArr = [
+    { children: "Login", onClick: handleSubmit, disabled: loading ?true:false  },
+  ];
 
   return (
     <div className="container">

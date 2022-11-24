@@ -6,15 +6,17 @@ import {
   GIVE_EXAM_FAIL,
   GIVE_EXAM_ONCHANGE,
   GIVE_EXAM_SET_QUESTIONS,
+  GIVE_EXAM_SUBMIT_REQ,
   GIVE_EXAM_SUCCESS,
 } from "../constant/Index";
 
 const initialState = {
   examPaper: [],
   loading: false,
+  giveExamLoading: false,
   giveExamQuestions: [],
   message: "",
-  error:"",
+  error: "",
 };
 
 const getExamPaperReducer = (state = initialState, action) => {
@@ -29,7 +31,7 @@ const getExamPaperReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error:"",
+        error: "",
         examPaper: [...action.payload],
       };
 
@@ -57,12 +59,20 @@ const getExamPaperReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
+        giveExamLoading: false,
       };
 
     case GIVE_EXAM_FAIL:
       return {
         ...state,
         message: action.payload,
+        giveExamLoading: false,
+      };
+
+    case GIVE_EXAM_SUBMIT_REQ:
+      return {
+        ...state,
+        giveExamLoading: true,
       };
     case GET_EXAM_PAPER_CLEAR:
       return {

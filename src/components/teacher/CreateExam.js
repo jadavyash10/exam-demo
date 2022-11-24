@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CreateExamField from "../../utils/CreateExamField";
 import Button from "../../reusable/Button";
 import Validation from "../Validation";
@@ -10,8 +10,10 @@ import { editExamPut } from "../../redux/action/EditExamAction";
 import { giveExam } from "../../redux/action/ExamPaperAction";
 import giveExamFields from "../../utils/GiveExamFields";
 import ReusableForm from "../../reusable/ReusableForm";
+import _ from "lodash";
 
-const CreateExam = ({ data, title, id }) => {
+const CreateExam = (props) => {
+  const { data, title, id, loadingData } = props;
   const initialState = {
     subjectName: "",
     questions: [],
@@ -34,6 +36,7 @@ const CreateExam = ({ data, title, id }) => {
   const role = localStorage.getItem("role");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.createExam);
 
   useEffect(() => {
     data !== undefined && setExamData(data);
@@ -77,7 +80,6 @@ const CreateExam = ({ data, title, id }) => {
         note: note,
       });
   }, [examData, data]);
-
   const {
     subjectName,
     question,
@@ -98,12 +100,11 @@ const CreateExam = ({ data, title, id }) => {
     answer: answer,
     options: [ans1, ans2, ans3, ans4],
   };
-  const cloneQuestions = (data === undefined ? examForm : examData)?.questions[
+  let cloneQuestions = (data === undefined ? examForm : examData)?.questions?.[
     currentQuestionIndex
   ];
+  cloneQuestions?._id && delete cloneQuestions?._id;
 
-  console.log("cloneQuestions", cloneQuestions);
-  console.log("obj", obj);
   const clearData = () => {
     setExamForm({ ...examForm, ...reset(examForm) });
   };
@@ -209,25 +210,19 @@ const CreateExam = ({ data, title, id }) => {
     };
     setExamForm({ ...examForm, ...obj });
   };
+
   const checkPreButtonClickStateChangeIsSame = (index) => {
-    var flage = false;
+    var flag = false;
     if (cloneQuestions === undefined) {
       if (question || answer || ans1 || ans2 || ans3 || ans4) {
-        return (flage = true);
+        return (flag = true);
       }
     } else {
-      if (
-        cloneQuestions.question !== question ||
-        cloneQuestions.answer !== answer ||
-        cloneQuestions.options[0] !== ans1 ||
-        cloneQuestions.options[1] !== ans2 ||
-        cloneQuestions.options[2] !== ans3 ||
-        cloneQuestions.options[3] !== ans4
-      ) {
-        return (flage = true);
+      if (!_.isEqual(cloneQuestions, obj)) {
+        return (flag = true);
       }
     }
-    return flage;
+    return flag;
   };
   const handlePreviousButton = () => {
     if (checkPreButtonClickStateChangeIsSame()) {
@@ -239,17 +234,10 @@ const CreateExam = ({ data, title, id }) => {
       handlePreviousValue(currentQuestionIndex - 1);
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
-
-    // handlePreviousValue(currentQuestionIndex - 1);
-    // setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
 
   const handleSkipButton = () => {
     let clone = examData.questions[currentQuestionIndex];
-    clone = {
-      ...clone,
-      answer: "",
-    };
     examData?.questions?.splice(currentQuestionIndex, 1, clone);
     setExamData({ ...examData });
     if (currentQuestionIndex != 6) {
@@ -268,6 +256,7 @@ const CreateExam = ({ data, title, id }) => {
       return;
     }
     if (
+      role === "teacher" &&
       handleDuplicateQuestion(
         data === undefined ? questions : examData.questions,
         question
@@ -379,7 +368,7 @@ const CreateExam = ({ data, title, id }) => {
             <>
               <Button
                 clickHandler={handlePreValueUpdate}
-                disabled={questions.length > 15}
+                disabled={questions.length > 15 || loadingData}
               >
                 {currentQuestionIndex != 14 ? "Next" : "Submit"}
               </Button>
@@ -394,7 +383,10 @@ const CreateExam = ({ data, title, id }) => {
               >
                 Skip
               </Button>
-              <Button clickHandler={handlePreValueUpdate}>
+              <Button
+                clickHandler={handlePreValueUpdate}
+                disabled={loadingData}
+              >
                 {currentQuestionIndex != 6 ? "Next" : "Submit"}
               </Button>
             </>
@@ -406,7 +398,7 @@ const CreateExam = ({ data, title, id }) => {
                 ? handlePreValueUpdate
                 : handleNextButton
             }
-            disabled={questions.length > 15}
+            disabled={questions.length > 15 || loading}
           >
             {currentQuestionIndex != 14 ? "Next" : "Submit"}
           </Button>

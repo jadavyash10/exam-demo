@@ -11,7 +11,7 @@ import DemoForm from "../../utils/DemoForm";
 import CreateExam from "../teacher/CreateExam";
 
 const GiveExam = () => {
-  const { examPaper, giveExamQuestions, loading, error } = useSelector(
+  const { examPaper, giveExamQuestions, loading, error,giveExamLoading } = useSelector(
     ({ getExamPaper }) => getExamPaper
   );
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const GiveExam = () => {
       ) : error ? (
         <h2>{error}</h2>
       ) : (
-        <CreateExam data={giveExamData} title="Give Exam" id={id} />
+        <CreateExam data={giveExamData} title="Give Exam" id={id} loadingData={giveExamLoading}/>
         // <DemoForm data={giveExamData} title="Give Exam" id={id}/>
       )}
     </div>
