@@ -27,7 +27,7 @@ const ReusableForm = (props) => {
                     id={value.id}
                     label={value.label}
                     name={value.name}
-                    value={Data[value.name] || ""}
+                    value={Data[value.name] || Data[0]?.[value.name] || ""}
                     type={value.type}
                     placeholder={value.placeholder}
                     onChange={onChange}
@@ -126,7 +126,9 @@ const ReusableForm = (props) => {
               return buttonArr?.map((v, i) => {
                 return (
                   <div key="button">
-                    <Button clickHandler={v?.onClick}>{v.children}</Button>
+                    <Button clickHandler={v?.onClick} disabled={v.disabled}>
+                      {v.children}
+                    </Button>
                   </div>
                 );
               });

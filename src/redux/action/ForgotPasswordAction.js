@@ -6,6 +6,7 @@ import {
   FORGOT_PASSWORD_ERROR,
   FORGOT_PASSWORD_FAIL,
   FORGOT_PASSWORD_ONCHANGE,
+  FORGOT_PASSWORD_SUBMIT_REQ,
   FORGOT_PASSWORD_SUCCESS,
 } from "../constant/Index";
 import { toastError, toastSuccess } from "./toastAction";
@@ -21,6 +22,11 @@ export const forgotPassFail = (message) => {
   return {
     type: FORGOT_PASSWORD_FAIL,
     payload: message,
+  };
+};
+export const forgotPassSubmitReq = () => {
+  return {
+    type: FORGOT_PASSWORD_SUBMIT_REQ,
   };
 };
 
@@ -44,6 +50,7 @@ export const forgotPassClear = () => {
 
 const forgotPasswordSubmit = () => {
   return async (dispatch, getState) => {
+    dispatch(forgotPassSubmitReq());
     const data = getState();
     const userData = data.forgotPassword.users;
     const message = data.forgotPassword.message;
@@ -57,11 +64,13 @@ const forgotPasswordSubmit = () => {
           dispatch(forgotPassSuccess(res.data.message));
           dispatch(forgotPassClear());
         } else {
+          dispatch(forgotPassFail(res.data.message));
           dispatch(forgotPassClear());
           toastError(res.data.message);
         }
       })
       .catch((error) => {
+        dispatch(forgotPassFail(error.message));
         toastError(error.message);
       });
   };

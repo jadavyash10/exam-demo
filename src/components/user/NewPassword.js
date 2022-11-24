@@ -19,7 +19,7 @@ const NewPassword = () => {
     dispatch(newpasswordClear());
   }, []);
 
-  const { users, message, errors } = useSelector((state) => state.newPassword);
+  const { users, message, errors ,loading} = useSelector((state) => state.newPassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ const NewPassword = () => {
     dispatch(newpasswordSubmit(token, navigate));
   };
 
-  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
+  const buttonArr = [{children:"Submit", onClick: handleSubmit ,disabled: loading ?true:false}];
 
   return (
     <div className="container">

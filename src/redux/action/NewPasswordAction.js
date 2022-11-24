@@ -3,6 +3,7 @@ import {
   NEW_PASSWORD_ERROR,
   NEW_PASSWORD_FAIL,
   NEW_PASSWORD_ONCHANGE,
+  NEW_PASSWORD_SUBMIT_REQ,
   NEW_PASSWORD_SUCCESS,
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
@@ -19,6 +20,11 @@ export const newpasswordFail = (message) => {
   return {
     type: NEW_PASSWORD_FAIL,
     payload: message,
+  };
+};
+export const newpasswordSubmitReq = () => {
+  return {
+    type: NEW_PASSWORD_SUBMIT_REQ,
   };
 };
 
@@ -42,6 +48,7 @@ export const newpasswordClear = () => {
 
 export const newpasswordSubmit = (token, navigate) => {
   return async (dispatch, getState) => {
+    dispatch(newpasswordSubmitReq())
     const state = getState();
     const userData = state.newPassword.users;
     await axiosApi
@@ -53,10 +60,12 @@ export const newpasswordSubmit = (token, navigate) => {
           dispatch(newpasswordClear());
           navigate("/login");
         } else {
+          dispatch(newpasswordFail(res.data.message))
           toastError(res.data.message);
         }
       })
       .catch((error) => {
+        dispatch(newpasswordFail(error.message))
         toastError(error.message);
       });
   };

@@ -44,7 +44,7 @@ const StudentDashboard = () => {
       ) : (
         <div className="container">
           <h1>All Exams</h1>
-          <div>
+          <div >
             <TableReusable header={column} data={allExamData} />
           </div>
           {/* <div className="row">

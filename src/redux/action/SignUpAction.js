@@ -4,11 +4,17 @@ import {
   SIGNUP_CLEAR,
   SIGNUP_ERROR,
   SIGNUP_FAIL,
+  SIGNUP_ONSUBMIT_REQ,
   SIGNUP_ON_CHANGE,
   SIGNUP_SUCCESS,
 } from "../constant/Index";
 import { toastError, toastSuccess } from "./toastAction";
 
+export const signUpSubmitReq = () => {
+  return {
+    type: SIGNUP_ONSUBMIT_REQ,
+  };
+};
 export const signUpSuccess = (message) => {
   return {
     type: SIGNUP_SUCCESS,
@@ -44,6 +50,7 @@ export const signUpClear = () => {
 
 export const signUpSubmit = (navigate) => {
   return async (dispatch, getState) => {
+    dispatch(signUpSubmitReq())
     const state = getState();
     const userData = state.signUp.users;
     await axiosApi
@@ -55,11 +62,15 @@ export const signUpSubmit = (navigate) => {
           dispatch(signUpClear());
           toastSuccess(res.data.message);
         } else {
+          console.log("first")
           dispatch(signUpFail(res.data.message));
-          dispatch(toastError(res.data.message));
+          toastError(res.data.message);
         }
       })
       .catch((error) => {
+        dispatch(signUpFail(error.message));
+        toastError(error.message);
+        console.log(error.message);
         // dispatch(signUpClear());
       });
   };

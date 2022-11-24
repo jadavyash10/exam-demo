@@ -3,6 +3,7 @@ import {
   RESET_PASSWORD_ERROR,
   RESET_PASSWORD_FAIL,
   RESET_PASSWORD_ONCHANGE,
+  RESET_PASSWORD_SUBMIT_REQ,
   RESET_PASSWORD_SUCCESS,
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
@@ -20,6 +21,11 @@ export const resetpasswordFail = (message) => {
   return {
     type: RESET_PASSWORD_FAIL,
     payload: message,
+  };
+};
+export const resetpasswordSubmitReq = () => {
+  return {
+    type: RESET_PASSWORD_SUBMIT_REQ,
   };
 };
 
@@ -44,6 +50,7 @@ export const resetpasswordClear = () => {
 export const resetpasswordSubmit = (navigate) => {
   const token = localStorage.getItem("userToken");
   return async (dispatch, getState) => {
+    dispatch(resetpasswordSubmitReq());
     const state = getState();
     const userData = state.resetPassword.users;
     await axiosApi
@@ -60,12 +67,13 @@ export const resetpasswordSubmit = (navigate) => {
           localStorage.clear();
           navigate("/login");
         } else {
+          dispatch(resetpasswordFail(res.data.message));
           toastError(res.data.message);
         }
       })
       .catch((error) => {
-        console.log(error);
-        // toastError(error.message);
+        dispatch(resetpasswordFail(error.message));
+        toastError(error.message);
       });
   };
 };

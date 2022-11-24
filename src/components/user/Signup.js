@@ -16,7 +16,9 @@ import Validation from "../Validation";
 import ReusableForm from "../../reusable/ReusableForm";
 
 const Signup = () => {
-  const { users, message, errors } = useSelector((state) => state.signUp);
+  const { users, message, errors, loading } = useSelector(
+    (state) => state.signUp
+  );
 
   useEffect(() => {
     dispatch(signUpClear());
@@ -39,8 +41,13 @@ const Signup = () => {
     }
     dispatch(signUpSubmit(navigate));
   };
-
-  const buttonArr = [{children:"Submit", onClick: handleSubmit }];
+  const buttonArr = [
+    {
+      children: "Submit",
+      onClick: handleSubmit,
+      disabled: loading ? true : false,
+    },
+  ];
   return (
     <div className="container">
       <h1>Sign up</h1>

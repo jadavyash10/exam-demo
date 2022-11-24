@@ -1,4 +1,5 @@
 import {
+  GET_STUDENT_ONCHANGE,
   GET_STUDENT_PROFILE,
   GET_STUDENT_PROFILE_EDIT,
   GET_STUDENT_PROFILE_FAIL,
@@ -16,6 +17,12 @@ export const StudentProfileReq = () => {
 export const StudentProfileSuccess = (state) => {
   return {
     type: GET_STUDENT_PROFILE,
+    payload: state,
+  };
+};
+export const StudentProfileOnchange = (state) => {
+  return {
+    type: GET_STUDENT_ONCHANGE,
     payload: state,
   };
 };

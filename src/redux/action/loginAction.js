@@ -5,6 +5,7 @@ import {
   LOGIN_ERROR,
   LOGIN_FAIL,
   LOGIN_ON_CHANGE,
+  LOGIN_SUBMIT_REQ,
   LOGIN_SUCCESS,
 } from "../constant/Index";
 import { toastError, toastSuccess } from "./toastAction";
@@ -41,9 +42,15 @@ export const loginClear = () => {
     type: LOGIN_CLEAR,
   };
 };
+export const loginSubmitReq = () => {
+  return {
+    type: LOGIN_SUBMIT_REQ,
+  };
+};
 
 export const loginSubmit = (navigate) => {
   return async (dispatch, getState) => {
+    dispatch(loginSubmitReq());
     const state = getState();
     const userData = state.login.users;
     await axiosApi
@@ -62,12 +69,13 @@ export const loginSubmit = (navigate) => {
             navigate("/studentDashboard");
           }
         } else {
-          dispatch(toastError(res.data.message));
+          dispatch(loginFail(res.data.message));
+          toastError(res.data.message);
         }
       })
       .catch((error) => {
-        console.log('error', error)
-        // dispatch(toastError(error.message));
+        dispatch(loginFail(error.message));
+        toastError(error.message);
       });
   };
 };

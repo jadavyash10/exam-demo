@@ -4,6 +4,7 @@ import Button from "./Button";
 
 const TableReusable = ({ header, data }) => {
   const headerArr = ["View Detail", "Edit", "Delete", "Detail", "Give Exam"];
+  const role = localStorage.getItem("role");
   return (
     <>
       <table className="table table-striped table-hover ">
@@ -39,6 +40,14 @@ const TableReusable = ({ header, data }) => {
                               subjectName: data[subjectIndex]?.subjectName,
                             }}
                             className="btn btn-primary"
+                            onClick={(e) => {
+                              if (
+                                data[index]?.Result[0]?.resultStatus ===
+                                "Declared"
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           >
                             {v.heading}
                           </Link>
@@ -46,6 +55,12 @@ const TableReusable = ({ header, data }) => {
                           <Button
                             clickHandler={() => v?.onClick(value?._id)}
                             className={v.className}
+                            disabled={
+                             role != "teacher" && data?.[index]?.Result[0]?.resultStatus !==
+                              "Declared"
+                                ? true
+                                : false
+                            }
                           >
                             {v.heading}
                           </Button>
@@ -62,11 +77,13 @@ const TableReusable = ({ header, data }) => {
                         </td>
                       );
                     } else if (v?.heading === "Result") {
-                     return <td key={i}>
-                        {value?.Result?.map((v, i) => {
-                          return <p key={i}>{v?.resultStatus}</p>;
-                        })}
-                      </td>;
+                      return (
+                        <td key={i}>
+                          {value?.Result?.map((v, i) => {
+                            return <p key={i}>{v?.resultStatus}</p>;
+                          })}
+                        </td>
+                      );
                     } else {
                       return <td key={i}>{value[v.value]}</td>;
                     }

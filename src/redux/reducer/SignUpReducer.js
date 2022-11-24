@@ -2,6 +2,7 @@ import {
   SIGNUP_CLEAR,
   SIGNUP_ERROR,
   SIGNUP_FAIL,
+  SIGNUP_ONSUBMIT_REQ,
   SIGNUP_ON_CHANGE,
   SIGNUP_SUCCESS,
 } from "../constant/Index";
@@ -17,6 +18,7 @@ const initialState = {
   users: { ...user },
   errors: {},
   message: "",
+  loading: false,
 };
 
 const SIGNUPReducer = (state = initialState, action) => {
@@ -32,10 +34,16 @@ const SIGNUPReducer = (state = initialState, action) => {
         ...state,
         errors: { ...state.errors, ...action.payload },
       };
+    case SIGNUP_ONSUBMIT_REQ:
+      return {
+        ...state,
+        loading: true,
+      };
 
     case SIGNUP_SUCCESS:
       return {
         ...state,
+        loading: false,
         message: action.payload,
       };
 
@@ -43,6 +51,7 @@ const SIGNUPReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
+        loading: false,
       };
     case SIGNUP_CLEAR:
       return initialState;

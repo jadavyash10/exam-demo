@@ -3,6 +3,7 @@ import {
   RESET_PASSWORD_ERROR,
   RESET_PASSWORD_FAIL,
   RESET_PASSWORD_ONCHANGE,
+  RESET_PASSWORD_SUBMIT_REQ,
   RESET_PASSWORD_SUCCESS,
 } from "../constant/Index";
 
@@ -16,6 +17,7 @@ const initialState = {
   users: { ...user },
   errors: {},
   message: "",
+  loading: false,
 };
 
 const resetPasswordReducer = (state = initialState, action) => {
@@ -24,12 +26,21 @@ const resetPasswordReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
+        loading: false,
       };
 
     case RESET_PASSWORD_FAIL:
       return {
         ...state,
         message: action.payload,
+        loading: false,
+      };
+
+    case RESET_PASSWORD_SUBMIT_REQ:
+      return {
+        ...state,
+        message: action.payload,
+        loading: true,
       };
 
     case RESET_PASSWORD_ONCHANGE:

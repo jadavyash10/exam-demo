@@ -6,6 +6,7 @@ import {
   GIVE_EXAM_FAIL,
   GIVE_EXAM_ONCHANGE,
   GIVE_EXAM_SET_QUESTIONS,
+  GIVE_EXAM_SUBMIT_REQ,
   GIVE_EXAM_SUCCESS,
 } from "../constant/Index";
 import { axiosApi } from "../../components/axios";
@@ -57,6 +58,12 @@ export const giveExamError = (state) => {
     payload: state,
   };
 };
+
+export const giveExamSuccessReq = () => {
+  return {
+    type: GIVE_EXAM_SUBMIT_REQ,
+  };
+};
 export const giveExamClear = (state) => {
   return {
     type: GET_EXAM_PAPER_CLEAR,
@@ -97,6 +104,7 @@ const getExamPaper = (id) => {
 export const giveExam = (id, data, navigate) => {
   const token = localStorage.getItem("userToken");
   return (dispatch) => {
+    dispatch(giveExamSuccessReq());
     axiosApi
       .post(`student/giveExam?id=${id}`, data, {
         headers: {
@@ -109,11 +117,12 @@ export const giveExam = (id, data, navigate) => {
           toastSuccess(res.data.message);
           navigate("/studentDashboard");
         } else {
-          dispatch(giveExamError());
+          dispatch(giveExamError(res.data.message));
           toastError(res.data.message);
         }
       })
       .catch((err) => {
+        dispatch(giveExamError(err.message));
         console.log(err);
       });
   };

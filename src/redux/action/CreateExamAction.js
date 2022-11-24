@@ -4,6 +4,7 @@ import { token } from "../../utils/Constant";
 import {
   CREATE_EXAM_DATA,
   CREATE_EXAM_FAIL,
+  CREATE_EXAM_SUBMIT_REQ,
   CREATE_EXAM_SUCCESS,
 } from "../constant/Index";
 
@@ -21,6 +22,12 @@ export const createExamFail = (state) => {
   };
 };
 
+export const createExamSubmitReq = () => {
+  return {
+    type: CREATE_EXAM_SUBMIT_REQ,
+  };
+};
+
 export const createExamData = (subjectName, questions, notes) => {
   return {
     type: CREATE_EXAM_DATA,
@@ -31,6 +38,7 @@ export const createExamData = (subjectName, questions, notes) => {
 export const createExamSubmit = (initialState, navigate) => {
   const token = localStorage.getItem("userToken");
   return (dispatch) => {
+    dispatch(createExamSubmitReq());
     axiosApi
       .post("/dashboard/Teachers/Exam", initialState, {
         headers: {
@@ -43,6 +51,7 @@ export const createExamSubmit = (initialState, navigate) => {
           navigate("/viewExam");
           dispatch(createExamSuccess(res.data.message));
         } else {
+          dispatch(createExamFail(res.data.message));
           toastError(res.data.message);
         }
       })
