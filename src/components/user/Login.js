@@ -11,7 +11,6 @@ import {
 import Validation from "../Validation";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Form from "../../reusable/Form";
 import { errorValidate } from "../../utils/Function";
 import ReusableForm from "../../reusable/ReusableForm";
 
@@ -41,7 +40,11 @@ const Login = () => {
     dispatch(loginSubmit(navigate));
   };
   const buttonArr = [
-    { children: "Login", onClick: handleSubmit, disabled: loading ?true:false  },
+    {
+      children: "Login",
+      onClick: handleSubmit,
+      disabled: loading ? true : false,
+    },
   ];
 
   return (
@@ -57,17 +60,8 @@ const Login = () => {
         />
       </div>
 
-      {/* <Form
-        field={loginField}
-        Data={users}
-        error={errors}
-        handleChange={handleChange}
-      />
-      <div className="row">
-        <Button clickHandler={handleSubmit}>Login</Button>
-      </div> */}
       <div>
-        <Link to="/forgotpassword">Forgotpassword?</Link>
+        <Link to="/forgotpassword">ForgotPassword?</Link>
       </div>
       <div className="row">
         <div className="col-4">

@@ -10,9 +10,11 @@ import Loader from "../../reusable/Loader";
 import TableReusable from "../../reusable/TableReusable";
 import { StudentProfileFields } from "../../utils/StudentProfileFields";
 import ReusableForm from "../../reusable/ReusableForm";
+import Validation from "../Validation";
 
 const StudentProfile = () => {
   const [name, setName] = useState({ name: "" });
+  const [error, setError] = useState({});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,19 +27,23 @@ const StudentProfile = () => {
   const loading = useSelector(({ getStuProfile }) => getStuProfile.loading);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     const temp = [...stuData];
     temp[0] = {
       ...temp[0],
       [e.target.name]: e.target.value,
     };
+    setError({ [name]: Validation(name, value) });
     dispatch(StudentProfileOnchange(temp));
   };
-
   const handleSubmit = () => {
+    if (Object.values(error).every((v) => v)) {
+      return;
+    }
     dispatch(stuDataEdit({ name: stuData[0].name }, navigate));
   };
 
-  const buttonArr = [{ children: "Login", onClick: handleSubmit }];
+  const buttonArr = [{ children: "Submit", onClick: handleSubmit }];
 
   return (
     <div className="container">
@@ -49,40 +55,10 @@ const StudentProfile = () => {
           <ReusableForm
             field={StudentProfileFields}
             Data={stuData}
-            error={name.error}
+            error={error}
             onChange={handleChange}
             buttonArr={buttonArr}
           />
-          {/* <TableReusable header={column} data={stuData} /> */}
-
-          {/* <div className="row">
-            <div className="col-10">
-              <table className="table table-striped table-hover ">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>email</th>
-                    <th>Edit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stuData?.map((value, i) => {
-                    return (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{value.name}</td>
-                        <td>{value.email}</td>
-                        <td>
-                          <Link to={`/EditStuProfile/${value._id}`}>Edit</Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div> */}
         </div>
       )}
     </div>

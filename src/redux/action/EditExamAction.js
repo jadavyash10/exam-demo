@@ -50,6 +50,7 @@ export const editExamPut = (id, editData, navigate) => {
         res.data.statusCode === 200
           ? (dispatch(EditExamSuccess(res.data.message)),
             toastSuccess(res.data.message),
+            localStorage.removeItem("id"),
             navigate("/viewExam"))
           : (dispatch(EditExamError(res.data.message)),
             toastError(res.data.message))

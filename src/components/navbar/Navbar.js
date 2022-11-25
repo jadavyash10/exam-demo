@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/navabar.css";
 import logout from "../../reusable/Logout";
 const Navbar = () => {

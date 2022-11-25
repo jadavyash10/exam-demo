@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Button from "../../reusable/Button";
 import {
   newpasswordClear,
   newpasswordError,
@@ -9,17 +8,17 @@ import {
 import Validation from "../Validation";
 import { useDispatch, useSelector } from "react-redux";
 import { newPasswordField } from "../../utils/newPasswordFields";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import Form from "../../reusable/Form";
-import { errorValidate } from "../../utils/Function";
-import ReusableForm from '../../reusable/ReusableForm';
+import { useNavigate, useSearchParams } from "react-router-dom";
+import ReusableForm from "../../reusable/ReusableForm";
 
 const NewPassword = () => {
   useEffect(() => {
     dispatch(newpasswordClear());
   }, []);
 
-  const { users, message, errors ,loading} = useSelector((state) => state.newPassword);
+  const { users, message, errors, loading } = useSelector(
+    (state) => state.newPassword
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,7 +49,13 @@ const NewPassword = () => {
     dispatch(newpasswordSubmit(token, navigate));
   };
 
-  const buttonArr = [{children:"Submit", onClick: handleSubmit ,disabled: loading ?true:false}];
+  const buttonArr = [
+    {
+      children: "Submit",
+      onClick: handleSubmit,
+      disabled: loading ? true : false,
+    },
+  ];
 
   return (
     <div className="container">
@@ -64,19 +69,6 @@ const NewPassword = () => {
           buttonArr={buttonArr}
         />
       </div>
-      {/* <div className="row">
-        <form>
-          <Form
-            field={newPasswordField}
-            Data={users}
-            error={errors}
-            handleChange={handleChange}
-          />
-          <div>
-            <Button clickHandler={handleSubmit}>Submit</Button>
-          </div>
-        </form>
-      </div> */}
     </div>
   );
 };

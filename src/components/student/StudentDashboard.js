@@ -3,17 +3,16 @@ import getAllExams from "../../redux/action/GetAllExamAction";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "../../reusable/Loader";
 import ModalComp from "../../reusable/ModalComp";
-import Button from "../../reusable/Button";
-import GiveExam from "./GiveExam";
 import TableReusable from "../../reusable/TableReusable";
 
 const StudentDashboard = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { allExamData, loading } = useSelector(({ getStuExam }) => getStuExam);
 
@@ -27,6 +26,16 @@ const StudentDashboard = () => {
     setModalData(allExamData[i]);
   };
 
+  const handleGiveExam = (id) => {
+    let subjectIndex = allExamData?.map((v, i) =>
+      allExamData?.findIndex((x) => x._id == id)
+    );
+    navigate(`/GetExamPaper/${id}`, {
+      state: {
+        subjectName: allExamData?.[subjectIndex?.[0]]?.subjectName,
+      },
+    });
+  };
   const column = [
     { heading: "No." },
     { heading: "SubjectName", value: "subjectName" },
@@ -34,7 +43,7 @@ const StudentDashboard = () => {
     { heading: "Result", value: "Result" },
     { heading: "Notes", value: "notes" },
     { heading: "Detail", onClick: handleModalClick },
-    { heading: "Give Exam", path: `/GetExamPaper` },
+    { heading: "Give Exam", onClick: handleGiveExam },
   ];
 
   return (
@@ -44,65 +53,9 @@ const StudentDashboard = () => {
       ) : (
         <div className="container">
           <h1>All Exams</h1>
-          <div >
+          <div>
             <TableReusable header={column} data={allExamData} />
           </div>
-          {/* <div className="row">
-            <div className="col-10">
-              <table className="table table-striped table-hover ">
-                <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>subjectName</th>
-                    <th>email</th>
-                    <th>Result</th>
-                    <th>notes</th>
-                    <th>Detail</th>
-                    <th>GiveExam</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allExamData.map((value, index) => {
-                    let i = allExamData.findIndex((x) => x._id == value._id);
-                    return (
-                      <tr key={index} rowSpan="2">
-                        <th>{index + 1}</th>
-                        <td>{value.subjectName}</td>
-                        <td>{value.email}</td>
-                        <td>
-                          {value?.Result?.map((v, i) => {
-                            return <tr key={i}>{v?.resultStatus}</tr>;
-                          })}
-                        </td>
-                        <td>
-                          {value.notes.map((v, i) => {
-                            return <tr key={i}>{v}</tr>;
-                          })}
-                        </td>
-                        <td>
-                          <>
-                            <Button onClick={() => handleModalClick(value._id)}>
-                              Detail
-                            </Button>
-                          </>
-                        </td>
-                        <td>
-                          <Link
-                            to={`/GetExamPaper/${value._id}`}
-                            state={{
-                              subjectName: allExamData[i].subjectName,
-                            }}
-                          >
-                            Give Exam
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div> */}
           {modalShow ? (
             <ModalComp
               show={modalShow}
