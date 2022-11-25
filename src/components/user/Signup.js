@@ -8,8 +8,6 @@ import {
   signUpSubmit,
   signUpSuccess,
 } from "../../redux/action/SignUpAction";
-import Button from "../../reusable/Button";
-import Form from "../../reusable/Form";
 import { errorValidate } from "../../utils/Function";
 import { sigupField } from "../../utils/signupFields";
 import Validation from "../Validation";
@@ -60,22 +58,6 @@ const Signup = () => {
           buttonArr={buttonArr}
         />
       </div>
-      {/* <div>
-        <form className="form-horizontal">
-          <div className="container">
-            <Form
-              field={sigupField}
-              Data={users}
-              error={errors}
-              handleChange={handleChange}
-            />
-
-            <div className="row">
-              <Button clickHandler={handleSubmit}>SignUp</Button>
-            </div>
-          </div>
-        </form>
-      </div> */}
     </div>
   );
 };

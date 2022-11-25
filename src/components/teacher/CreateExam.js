@@ -5,15 +5,12 @@ import CreateExamField from "../../utils/CreateExamField";
 import Button from "../../reusable/Button";
 import Validation from "../Validation";
 import { errorValidate, reset } from "../../utils/Function";
-import { createExamSubmit } from "../../redux/action/CreateExamAction";
-import { editExamPut } from "../../redux/action/EditExamAction";
-import { giveExam } from "../../redux/action/ExamPaperAction";
 import giveExamFields from "../../utils/GiveExamFields";
 import ReusableForm from "../../reusable/ReusableForm";
 import _ from "lodash";
 
 const CreateExam = (props) => {
-  const { data, title, id, loadingData } = props;
+  const { data, title, id, loadingData, index } = props;
   const initialState = {
     subjectName: "",
     questions: [],
@@ -80,6 +77,11 @@ const CreateExam = (props) => {
         note: note,
       });
   }, [examData, data]);
+
+  useEffect(() => {
+    index !== undefined && setCurrentQuestionIndex(index);
+  }, [data, index]);
+
   const {
     subjectName,
     question,
@@ -186,7 +188,7 @@ const CreateExam = (props) => {
       clearData();
     }
     if (currentQuestionIndex === 14 && questions.length === 15) {
-      handleSubmit();
+      handlePreviewButton();
     }
   };
 
@@ -308,27 +310,23 @@ const CreateExam = (props) => {
       currentQuestionIndex === 14 &&
       (questions.length === 15 || examData?.questions?.length === 15)
     ) {
-      handleSubmit();
+      handlePreviewButton();
     }
     if (role === "student") {
       if (currentQuestionIndex === 6 && examData?.questions?.length === 7) {
-        handleSubmit();
+        handlePreviewButton();
       }
     }
   };
 
-  const handleSubmit = () => {
-    const giveExamData = examData?.questions?.map(
-      ({ options, _id, ...rest }) => {
-        return rest;
-      }
-    );
-    const newArr = { subjectName, questions, notes };
-    data == undefined
-      ? dispatch(createExamSubmit(newArr, navigate))
-      : role !== "student"
-      ? dispatch(editExamPut(id, examData, navigate))
-      : dispatch(giveExam(id, giveExamData, navigate));
+  const handlePreviewButton = () => {
+    id !== undefined && localStorage.setItem("id", id);
+    navigate("/previewData", {
+      state: {
+        editData: data !== undefined ? examData : examForm,
+        title:title ? title : "Create Exam"
+      },
+    });
   };
 
   return (
@@ -370,7 +368,7 @@ const CreateExam = (props) => {
                 clickHandler={handlePreValueUpdate}
                 disabled={questions.length > 15 || loadingData}
               >
-                {currentQuestionIndex != 14 ? "Next" : "Submit"}
+                {currentQuestionIndex != 14 ? "Next" : "Preview"}
               </Button>
             </>
           ) : (
@@ -387,7 +385,7 @@ const CreateExam = (props) => {
                 clickHandler={handlePreValueUpdate}
                 disabled={loadingData}
               >
-                {currentQuestionIndex != 6 ? "Next" : "Submit"}
+                {currentQuestionIndex != 6 ? "Next" : "Preview"}
               </Button>
             </>
           )
@@ -400,7 +398,7 @@ const CreateExam = (props) => {
             }
             disabled={questions.length > 15 || loading}
           >
-            {currentQuestionIndex != 14 ? "Next" : "Submit"}
+            {currentQuestionIndex != 14 ? "Next" : "Preview"}
           </Button>
         )}
       </div>

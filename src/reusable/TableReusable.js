@@ -21,7 +21,12 @@ const TableReusable = ({ header, data }) => {
         </thead>
         <tbody>
           {data?.map((value, index) => {
-            let subjectIndex = data?.findIndex((x) => x._id == value._id);
+            const stuGivExam =
+              data?.[index]?.Result?.[0]?.resultStatus === "Declared";
+            const StuExamDetail =
+              role != "teacher" &&
+              data?.[index]?.Result?.[0]?.resultStatus !== "Declared";
+
             return (
               <tr key={index}>
                 {header.map((v, i) => {
@@ -36,30 +41,22 @@ const TableReusable = ({ header, data }) => {
                             to={`${v.path}/${
                               value?._id ? value?._id : value.id
                             }`}
-                            state={{
-                              subjectName: data[subjectIndex]?.subjectName,
-                            }}
                             className="btn btn-primary"
-                            onClick={(e) => {
-                              if (
-                                data[index]?.Result[0]?.resultStatus ===
-                                "Declared"
-                              ) {
-                                e.preventDefault();
-                              }
-                            }}
                           >
                             {v.heading}
                           </Link>
                         ) : (
                           <Button
-                            clickHandler={() => v?.onClick(value?._id)}
+                            clickHandler={() =>
+                              v?.onClick(
+                                (value?._id ? value?._id : index) || index
+                              )
+                            }
                             className={v.className}
                             disabled={
-                             role != "teacher" && data?.[index]?.Result[0]?.resultStatus !==
-                              "Declared"
-                                ? true
-                                : false
+                              role != "teacher" && v.heading === "Give Exam"
+                                ? stuGivExam 
+                                :v.heading === "Detail" ?StuExamDetail:""
                             }
                           >
                             {v.heading}
@@ -68,10 +65,10 @@ const TableReusable = ({ header, data }) => {
                       </td>
                     );
                   } else {
-                    if (v?.heading === "Notes") {
+                    if (v?.heading === "Notes" || v?.heading === "Options") {
                       return (
                         <td key={i}>
-                          {value.notes.map((item, ii) => {
+                          {value?.[v?.value].map((item, ii) => {
                             return <p key={ii}>{item}</p>;
                           })}
                         </td>

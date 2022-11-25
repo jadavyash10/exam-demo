@@ -3,7 +3,7 @@ import { pass, re } from "../utils/regex";
 const Validation = (name, value, userData) => {
   switch (name) {
     case "name":
-      return !value ? "Please enter a username" : "";
+      return !value ? "Please enter a Name" : "";
 
     case "email":
       return !value

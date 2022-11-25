@@ -19,7 +19,7 @@ const EditExam = () => {
   const loading1 = useSelector(({ viewExamDetail }) => viewExamDetail.loading);
   const { allExam, loading } = useSelector(({ viewExam }) => viewExam);
   const editExamLoading = useSelector((state) => state.EditExam.loading);
-  
+
   let index = allExam.findIndex((x) => x._id == id);
 
   const data = {
@@ -45,7 +45,6 @@ const EditExam = () => {
           loadingData={editExamLoading}
         />
       );
-      // return <DemoForm data={data} title="Edit Exam" id={id}/>
     }
   }
 };

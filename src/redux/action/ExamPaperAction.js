@@ -116,6 +116,7 @@ export const giveExam = (id, data, navigate) => {
           dispatch(giveExamSuccess(res.data.message));
           toastSuccess(res.data.message);
           navigate("/studentDashboard");
+          localStorage.removeItem("id");
         } else {
           dispatch(giveExamError(res.data.message));
           toastError(res.data.message);

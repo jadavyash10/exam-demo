@@ -62,7 +62,6 @@ export const signUpSubmit = (navigate) => {
           dispatch(signUpClear());
           toastSuccess(res.data.message);
         } else {
-          console.log("first")
           dispatch(signUpFail(res.data.message));
           toastError(res.data.message);
         }

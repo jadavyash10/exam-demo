@@ -37,13 +37,6 @@ const VerifiedStudentData = () => {
           <div>
             <TableReusable header={column} data={allStudent} />
           </div>
-          {/* <div className="">
-            <Table
-              th={["No.", "Name", "Email", "Status", "Show"]}
-              tableData={allStudent}
-              show={true}
-            />
-          </div> */}
         </>
       )}
     </div>

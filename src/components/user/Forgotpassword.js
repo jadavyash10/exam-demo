@@ -6,9 +6,7 @@ import forgotPasswordSubmit, {
   forgotPassOnChange,
 } from "../../redux/action/ForgotPasswordAction";
 import Validation from "../Validation";
-import Button from "../../reusable/Button";
 import { useNavigate } from "react-router-dom";
-import Form from "../../reusable/Form";
 import forgotPassField from "../../utils/forgotPassworField";
 import ReusableForm from "../../reusable/ReusableForm";
 
@@ -17,12 +15,11 @@ const Forgotpassword = () => {
     dispatch(forgotPassClear());
   }, []);
 
-  const { users, message, errors,loading } = useSelector(
+  const { users, message, errors, loading } = useSelector(
     (state) => state.forgotPassword
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-console.log('loading', loading)
   const handleChange = (e) => {
     const { name, value } = e.target;
     const newError = Validation(name, value);
@@ -47,7 +44,13 @@ console.log('loading', loading)
     // navigate("/login");
   };
 
-  const buttonArr = [{children:"Submit", onClick: handleSubmit ,disabled:loading?true:false}];
+  const buttonArr = [
+    {
+      children: "Submit",
+      onClick: handleSubmit,
+      disabled: loading ? true : false,
+    },
+  ];
 
   return (
     <div className="container">
@@ -61,19 +64,6 @@ console.log('loading', loading)
           buttonArr={buttonArr}
         />
       </div>
-
-      {/* <div className="row">
-      //   <Form
-      //     field={forgotPassField}
-      //     Data={users}
-      //     error={errors}
-      //     handleChange={handleChange}
-      //   />
-      // </div>
-      // <div className="row">
-      //   <Button clickHandler={handleSubmit}>Submit</Button>
-      //   <Button clickHandler={() => navigate("/login")}>Login</Button>
-      // </div> */}
     </div>
   );
 };

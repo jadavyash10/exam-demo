@@ -8,9 +8,7 @@ import {
   resetpasswordClear,
 } from "../../redux/action/ResetPasswordAction";
 import Validation from "../Validation";
-import Button from "../../reusable/Button";
 import { resetPassField } from "../../utils/resetPassField";
-import Form from "../../reusable/Form";
 import ReusableForm from "../../reusable/ReusableForm";
 
 const ResetPassword = () => {
@@ -18,7 +16,7 @@ const ResetPassword = () => {
     dispatch(resetpasswordClear());
   }, []);
 
-  const { users, message, errors ,loading} = useSelector(
+  const { users, message, errors, loading } = useSelector(
     (state) => state.resetPassword
   );
 
@@ -49,7 +47,13 @@ const ResetPassword = () => {
     dispatch(resetpasswordSubmit(navigate));
   };
 
-  const buttonArr = [{children:"Submit", onClick: handleSubmit,disabled:loading?true:false }];
+  const buttonArr = [
+    {
+      children: "Submit",
+      onClick: handleSubmit,
+      disabled: loading ? true : false,
+    },
+  ];
 
   return (
     <div className="container">
@@ -63,17 +67,6 @@ const ResetPassword = () => {
           buttonArr={buttonArr}
         />
       </div>
-      {/* <div className="row">
-        <Form
-          field={resetPassField}
-          Data={users}
-          error={errors}
-          handleChange={handleChange}
-        />
-      </div>
-      <div>
-        <Button clickHandler={handleSubmit}>Submit</Button>
-      </div> */}
     </div>
   );
 };

@@ -18,6 +18,8 @@ import EditStudentProfile from "../components/student/EditStudentProfile";
 import GiveExam from "../components/student/GiveExam";
 import DemoForm from "../utils/DemoForm";
 import NotFound from "../components/NotFound";
+import Preview from '../reusable/Preview';
+import EditPreviewData from '../components/teacher/EditPreviewData';
 
 export const RoutesArr = [
   {
@@ -114,6 +116,18 @@ export const RoutesArr = [
     path: "/GetExamPaper/:id",
     element: <GiveExam />,
     id: "GetExamPaper",
+    privateElement: true,
+  },
+  {
+    path: "/previewData",
+    element: <Preview />,
+    id: "previewData",
+    privateElement: true,
+  },
+  {
+    path: "/editPreviewData/:id",
+    element: <EditPreviewData />,
+    id: "editPreviewData/:id",
     privateElement: true,
   },
   {

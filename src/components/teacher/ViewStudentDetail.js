@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
 import Loader from "../../reusable/Loader";
-import TableReusable from '../../reusable/TableReusable';
+import TableReusable from "../../reusable/TableReusable";
 
 const ViewStudentDetail = () => {
   const dispatch = useDispatch();
@@ -38,20 +38,7 @@ const ViewStudentDetail = () => {
                 <div key={id}>
                   <h4>Name :{v.name}</h4>
                   <p>Email : {v.email}</p>
-            <TableReusable header={column} data={v?.Result}/>
-
-                  {/* {v.Result.map((v, i) => {
-                    return (
-                      <div key={v.id}>
-                        <p>Rank :{v.rank}</p>
-                        <p>subjectName :{v.subjectName}</p>
-                        <p>score :{v.score}</p>
-                        <p>resultStatus :{v.resultStatus}</p>
-                        <p>__v :{v.__v}</p>
-                        <hr />
-                      </div>
-                    );
-                  })} */}
+                  <TableReusable header={column} data={v?.Result} />
                 </div>
               );
             })}

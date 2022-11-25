@@ -42,8 +42,6 @@ const DemoForm = (props) => {
     props.data !== undefined && setData(props.data);
   }, [props.data]);
 
-  console.log("data", data);
-
   const handleDuplicateObject = (arr) => {
     let result = arr.some((element, i) => {
       return arr.indexOf(element) !== i;
@@ -63,7 +61,6 @@ const DemoForm = (props) => {
       }
     }
   };
-  console.log("error", error);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setError({ ...error, [name]: Validation(name, value) });
@@ -170,7 +167,6 @@ const DemoForm = (props) => {
         : dispatch(giveExam(props.id, giveExamData, navigate));
     }
   };
-  console.log("data", props.data === undefined);
   const handlePrevious = (e) => {
     setIndex(index - 1);
   };
