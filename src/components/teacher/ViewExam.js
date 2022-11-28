@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import viewExam, { deleteExam } from "../../redux/action/ViewExamAction";
 import { useSelector } from "react-redux";
 import Loader from "../../reusable/Loader";
 import TableReusable from "../../reusable/TableReusable";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const ViewExam = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const ViewExam = () => {
 
   return (
     <div className="container">
+      <HelmetComp title="View Exams" />
       <h1>View Exams</h1>
       {loading ? (
         <Loader />
@@ -43,4 +45,4 @@ const ViewExam = () => {
   );
 };
 
-export default React.memo(ViewExam);
+export default memo(ViewExam);

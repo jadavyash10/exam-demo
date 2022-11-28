@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import { errorValidate } from "../../utils/Function";
 import { sigupField } from "../../utils/signupFields";
 import Validation from "../Validation";
 import ReusableForm from "../../reusable/ReusableForm";
+import HelmetComp from "../../reusable/HelmetComp";
 
 const Signup = () => {
   const { users, message, errors, loading } = useSelector(
@@ -48,6 +49,7 @@ const Signup = () => {
   ];
   return (
     <div className="container">
+      <HelmetComp title="Sign up" />
       <h1>Sign up</h1>
       <div>
         <ReusableForm
@@ -62,4 +64,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default memo(Signup);

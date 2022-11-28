@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import getAllExams from "../../redux/action/GetAllExamAction";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../reusable/Loader";
 import ModalComp from "../../reusable/ModalComp";
 import TableReusable from "../../reusable/TableReusable";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const StudentDashboard = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -51,6 +52,7 @@ const StudentDashboard = () => {
 
   return (
     <div>
+      <HelmetComp title="Student dashboard" />
       {loading ? (
         <Loader />
       ) : (
@@ -74,4 +76,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard;
+export default memo(StudentDashboard);

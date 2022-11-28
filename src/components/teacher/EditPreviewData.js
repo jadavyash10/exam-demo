@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import CreateExam from "./CreateExam";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const EditPreviewData = () => {
   const { id } = useParams();
@@ -10,6 +11,8 @@ const EditPreviewData = () => {
 
   return (
     <div className="container">
+      <HelmetComp title={title} />
+
       <div>
         <CreateExam data={data} index={+id} title={title} />
       </div>
@@ -17,4 +20,4 @@ const EditPreviewData = () => {
   );
 };
 
-export default EditPreviewData;
+export default memo(EditPreviewData);

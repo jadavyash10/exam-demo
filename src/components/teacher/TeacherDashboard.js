@@ -1,10 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import showStudentDatass from "../../redux/action/ShowStudentDataAction";
 import Table from "../../reusable/Table";
 import Loader from "../../reusable/Loader";
 import TableReusable from "../../reusable/TableReusable";
+import HelmetComp from "../../reusable/HelmetComp";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const TeacherDashboard = () => {
 
   return (
     <div className="container mt-3">
+      <HelmetComp title="Teacher dashboard" />
       <h1>Student Data</h1>
       {loading ? (
         <Loader />
@@ -42,4 +44,4 @@ const TeacherDashboard = () => {
   );
 };
 
-export default TeacherDashboard;
+export default memo(TeacherDashboard);

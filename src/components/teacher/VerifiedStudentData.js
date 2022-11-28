@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import showVerifiedStudentData from "../../redux/action/verifiedStudentDataAction";
 import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Table from "../../reusable/Table";
 import Loader from "../../reusable/Loader";
 import TableReusable from "../../reusable/TableReusable";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const VerifiedStudentData = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const VerifiedStudentData = () => {
   ];
   return (
     <div className="container mt-3">
+      <HelmetComp title="Verified Student Data" />
       <h1> Verified Student Data</h1>
       {loading ? (
         <Loader />
@@ -43,4 +45,4 @@ const VerifiedStudentData = () => {
   );
 };
 
-export default VerifiedStudentData;
+export default memo(VerifiedStudentData);

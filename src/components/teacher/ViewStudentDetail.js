@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import viewStudentDetail from "../../redux/action/ViewStudentDetailAction";
 import Loader from "../../reusable/Loader";
 import TableReusable from "../../reusable/TableReusable";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const ViewStudentDetail = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const ViewStudentDetail = () => {
 
   return (
     <div className="container mt-3" style={{ width: "800px" }}>
+      <HelmetComp title="Student Detail" />
+      
       <h1>Student Detail</h1>
       {loading ? (
         <Loader />
@@ -49,4 +52,4 @@ const ViewStudentDetail = () => {
   );
 };
 
-export default ViewStudentDetail;
+export default memo(ViewStudentDetail);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CreateExamField from "../../utils/CreateExamField";
@@ -8,6 +8,7 @@ import { errorValidate, reset } from "../../utils/Function";
 import giveExamFields from "../../utils/GiveExamFields";
 import ReusableForm from "../../reusable/ReusableForm";
 import _ from "lodash";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const CreateExam = (props) => {
   const { data, title, id, loadingData, index } = props;
@@ -349,6 +350,8 @@ const CreateExam = (props) => {
 
   return (
     <div className="container">
+      <HelmetComp title={title ? title : "Create Exam"} />
+
       <h1>{title ? title : "Create Exam"}</h1>
 
       <div className="m-2">
@@ -424,4 +427,4 @@ const CreateExam = (props) => {
   );
 };
 
-export default React.memo(CreateExam);
+export default memo(CreateExam);
