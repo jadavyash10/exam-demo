@@ -5,13 +5,16 @@ import Button from "./Button";
 import { editExamPut } from "../redux/action/EditExamAction";
 import { giveExam } from "../redux/action/ExamPaperAction";
 import { createExamSubmit } from "../redux/action/CreateExamAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Preview = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    localStorage.removeItem("currentQuestionIndex");
+  }, []);
   const questions = state?.editData?.questions;
   const title = state?.title;
   const id = localStorage.getItem("id");
@@ -23,11 +26,13 @@ const Preview = () => {
       state?.editData?.questions?.map(({ options, _id, ...rest }) => {
         return rest;
       });
+
     const newArr = {
       subjectName: state?.editData?.subjectName,
       questions: state?.editData?.questions,
       notes: state?.editData?.notes,
     };
+
     role === "student"
       ? dispatch(giveExam(id, giveExamData, navigate))
       : id
@@ -39,7 +44,7 @@ const Preview = () => {
     navigate(`/editPreviewData/${index}`, {
       state: {
         data: state?.editData,
-        title:title
+        title: title,
       },
     });
   };

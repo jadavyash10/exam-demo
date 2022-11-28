@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import viewExamDetail from "../../redux/action/ViewExamDetailAction";
 import viewExam from "../../redux/action/ViewExamAction";
 import Loader from "../../reusable/Loader";
-import DemoForm from "../../utils/DemoForm";
 
 const EditExam = () => {
   const dispatch = useDispatch();
