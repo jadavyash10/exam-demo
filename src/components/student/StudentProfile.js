@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   stuDataEdit,
@@ -11,6 +11,7 @@ import TableReusable from "../../reusable/TableReusable";
 import { StudentProfileFields } from "../../utils/StudentProfileFields";
 import ReusableForm from "../../reusable/ReusableForm";
 import Validation from "../Validation";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const StudentProfile = () => {
   const [name, setName] = useState({ name: "" });
@@ -47,6 +48,7 @@ const StudentProfile = () => {
 
   return (
     <div className="container">
+      <HelmetComp title="Student Profile" />
       <h1>Student Profile</h1>
       {loading ? (
         <Loader />
@@ -65,4 +67,4 @@ const StudentProfile = () => {
   );
 };
 
-export default StudentProfile;
+export default memo(StudentProfile);

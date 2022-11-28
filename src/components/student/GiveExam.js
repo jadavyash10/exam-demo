@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import Loader from "../../reusable/Loader";
 import CreateExam from "../teacher/CreateExam";
 import getExamPaper from "../../redux/action/ExamPaperAction";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const GiveExam = () => {
   const { examPaper, giveExamQuestions, loading, error, giveExamLoading } =
@@ -31,6 +32,7 @@ const GiveExam = () => {
   };
   return (
     <div>
+      <HelmetComp title="give Exam" />
       {loading ? (
         <Loader />
       ) : error ? (
@@ -47,4 +49,4 @@ const GiveExam = () => {
   );
 };
 
-export default GiveExam;
+export default memo(GiveExam);

@@ -10,9 +10,10 @@ import {
 } from "../../redux/action/loginAction";
 import Validation from "../Validation";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { errorValidate } from "../../utils/Function";
 import ReusableForm from "../../reusable/ReusableForm";
+import HelmetComp from "../../reusable/HelmetComp";
 
 const Login = () => {
   const { users, message, errors, loading } = useSelector(
@@ -49,6 +50,7 @@ const Login = () => {
 
   return (
     <div className="container">
+      <HelmetComp title="Login"/>
       <h1>Login</h1>
       <div>
         <ReusableForm
@@ -72,4 +74,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default memo(Login);

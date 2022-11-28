@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { stuDataEdit } from "../../redux/action/StudentProfileAction";
 import Button from "../../reusable/Button";
 import { useNavigate } from "react-router-dom";
@@ -42,4 +42,4 @@ const EditStudentProfile = () => {
   );
 };
 
-export default EditStudentProfile;
+export default memo(EditStudentProfile);

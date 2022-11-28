@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { newPasswordField } from "../../utils/newPasswordFields";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReusableForm from "../../reusable/ReusableForm";
+import { memo } from "react";
+import HelmetComp from '../../reusable/HelmetComp';
 
 const NewPassword = () => {
   useEffect(() => {
@@ -59,6 +61,7 @@ const NewPassword = () => {
 
   return (
     <div className="container">
+      <HelmetComp title="New Password" />
       <h1>New Password</h1>
       <div>
         <ReusableForm
@@ -73,4 +76,4 @@ const NewPassword = () => {
   );
 };
 
-export default NewPassword;
+export default memo(NewPassword);

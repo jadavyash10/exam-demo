@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import viewExamDetail from "../../redux/action/ViewExamDetailAction";
 import viewExam from "../../redux/action/ViewExamAction";
 import Loader from "../../reusable/Loader";
+import HelmetComp from "../../reusable/HelmetComp";
 
 const EditExam = () => {
   const dispatch = useDispatch();
@@ -32,20 +33,21 @@ const EditExam = () => {
     dispatch(viewExam());
   }, [dispatch]);
 
-  {
-    if (loading && loading1) {
-      return <Loader />;
-    } else {
-      return (
+  return (
+    <div>
+      <HelmetComp title="Edit Exam" />
+      {loading && loading1 ? (
+        <Loader />
+      ) : (
         <CreateExam
           data={data}
           title="Edit Exam"
           id={id}
           loadingData={editExamLoading}
         />
-      );
-    }
-  }
+      )}
+    </div>
+  );
 };
 
-export default EditExam;
+export default memo(EditExam);

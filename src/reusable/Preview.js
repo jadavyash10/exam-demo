@@ -6,6 +6,7 @@ import { editExamPut } from "../redux/action/EditExamAction";
 import { giveExam } from "../redux/action/ExamPaperAction";
 import { createExamSubmit } from "../redux/action/CreateExamAction";
 import { useDispatch, useSelector } from "react-redux";
+import HelmetComp from './HelmetComp';
 
 const Preview = () => {
   const { state } = useLocation();
@@ -15,6 +16,11 @@ const Preview = () => {
   useEffect(() => {
     localStorage.removeItem("currentQuestionIndex");
   }, []);
+
+  const { giveExamLoading } = useSelector(({ getExamPaper }) => getExamPaper);
+  const { loading } = useSelector((state) => state.createExam);
+  const editExamLoading = useSelector((state) => state.EditExam.loading);
+
   const questions = state?.editData?.questions;
   const title = state?.title;
   const id = localStorage.getItem("id");
@@ -58,12 +64,19 @@ const Preview = () => {
   ];
   return (
     <div className="container">
+      <HelmetComp title="Preview Data" />
+      
       <h2>Preview All Questions for {state?.editData?.subjectName}</h2>
       <div>
         <TableReusable header={column} data={questions} />
       </div>
       <div>
-        <Button clickHandler={handleSubmit}>Submit</Button>
+        <Button
+          clickHandler={handleSubmit}
+          disabled={giveExamLoading || loading || editExamLoading}
+        >
+          Submit
+        </Button>
       </div>
     </div>
   );

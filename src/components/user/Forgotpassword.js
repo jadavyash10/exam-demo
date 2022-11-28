@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import forgotPasswordSubmit, {
   forgotPassClear,
@@ -9,6 +9,7 @@ import Validation from "../Validation";
 import { useNavigate } from "react-router-dom";
 import forgotPassField from "../../utils/forgotPassworField";
 import ReusableForm from "../../reusable/ReusableForm";
+import HelmetComp from "../../reusable/HelmetComp";
 
 const Forgotpassword = () => {
   useEffect(() => {
@@ -54,6 +55,7 @@ const Forgotpassword = () => {
 
   return (
     <div className="container">
+      <HelmetComp title="Forgot Password"/>
       <h1>Forgot Password</h1>
       <div>
         <ReusableForm
@@ -68,4 +70,4 @@ const Forgotpassword = () => {
   );
 };
 
-export default Forgotpassword;
+export default memo(Forgotpassword);
