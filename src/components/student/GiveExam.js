@@ -2,13 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
-import getExamPaper, {
-  giveExam,
-  giveExamOnChange,
-} from "../../redux/action/ExamPaperAction";
 import Loader from "../../reusable/Loader";
-import DemoForm from "../../utils/DemoForm";
 import CreateExam from "../teacher/CreateExam";
+import getExamPaper from "../../redux/action/ExamPaperAction";
 
 const GiveExam = () => {
   const { examPaper, giveExamQuestions, loading, error, giveExamLoading } =
@@ -20,7 +16,9 @@ const GiveExam = () => {
   const subName = state?.subjectName;
 
   useEffect(() => {
-    dispatch(getExamPaper(id));
+    let allData = JSON.parse(localStorage.getItem("allData"));
+    !allData && dispatch(getExamPaper(id));
+    id !== undefined && localStorage.setItem("id", id);
   }, [dispatch]);
 
   let new_array = examPaper.map(function (ele) {

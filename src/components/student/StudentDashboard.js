@@ -18,6 +18,9 @@ const StudentDashboard = () => {
 
   useEffect(() => {
     dispatch(getAllExams());
+    localStorage.removeItem("id")
+    localStorage.removeItem("currentQuestionIndex")
+    localStorage.removeItem("allData")
   }, []);
 
   const handleModalClick = (id) => {

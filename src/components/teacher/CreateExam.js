@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CreateExamField from "../../utils/CreateExamField";
 import Button from "../../reusable/Button";
@@ -35,6 +35,7 @@ const CreateExam = (props) => {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.createExam);
 
+  const params = useParams();
   useEffect(() => {
     data !== undefined && setExamData(data);
   }, [data]);
@@ -81,6 +82,20 @@ const CreateExam = (props) => {
   useEffect(() => {
     index !== undefined && setCurrentQuestionIndex(index);
   }, [data, index]);
+
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      role === "student" &&
+        localStorage.setItem("currentQuestionIndex", currentQuestionIndex);
+    };
+  }, [examData, currentQuestionIndex]);
+
+  useEffect(() => {
+    const currentQuestionIndex = localStorage.getItem("currentQuestionIndex");
+    const allData = JSON.parse(localStorage.getItem("allData"));
+    +currentQuestionIndex && setCurrentQuestionIndex(+currentQuestionIndex);
+    allData && setExamData(allData);
+  }, []);
 
   const {
     subjectName,
@@ -213,7 +228,7 @@ const CreateExam = (props) => {
     setExamForm({ ...examForm, ...obj });
   };
 
-  const checkPreButtonClickStateChangeIsSame = (index) => {
+  const checkPreButtonClickStateChangeIsSame = () => {
     var flag = false;
     if (cloneQuestions === undefined) {
       if (question || answer || ans1 || ans2 || ans3 || ans4) {
@@ -317,6 +332,9 @@ const CreateExam = (props) => {
         handlePreviewButton();
       }
     }
+    role === "student" &&
+      examData &&
+      localStorage.setItem("allData", JSON.stringify(examData));
   };
 
   const handlePreviewButton = () => {
@@ -324,7 +342,7 @@ const CreateExam = (props) => {
     navigate("/previewData", {
       state: {
         editData: data !== undefined ? examData : examForm,
-        title:title ? title : "Create Exam"
+        title: title ? title : "Create Exam",
       },
     });
   };
